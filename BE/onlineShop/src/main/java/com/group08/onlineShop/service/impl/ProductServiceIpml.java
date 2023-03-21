@@ -19,12 +19,11 @@ public class ProductServiceIpml implements ProductService {
     private final CategoryRepo categoryRepo;
     private final ProductRepo productRepo;
 
-    private final ModelMapper modelMapper;
 
     @Override
     public Product saveNewProduct(ProductReq productReq) {
         Category category = categoryRepo.getReferenceById(productReq.getCategory().getId());
-        Product product = modelMapper.map(productReq, Product.class);
+        Product product = new Product();
         product.setCategory(category);
         productRepo.save(product);
         return product;
