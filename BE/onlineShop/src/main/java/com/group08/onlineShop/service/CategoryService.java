@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CategoryService {
-    Category findById(UUID id);
+    Category findById(Long id);
     List<Category> findAll();
     Category save(CategoryDTO categoryDTO);
     Category updateCategory(CategoryDTO categoryDTO);
-    Boolean deleteCategory(UUID categoryId);
+    Boolean deleteCategory(Long categoryId);
 
 }
