@@ -31,8 +31,8 @@ public class ProductController {
             return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
         }
     }
-    @GetMapping("/product")
-    public ResponseEntity<?> getProductById(@RequestParam Long proId)
+    @GetMapping("/product/{proId}")
+    public ResponseEntity<?> getProductById(@PathVariable(value = "proId") Long proId)
     {
         try {
             return ResponseEntity.ok(new ResponseDTO(true, "Success", productService.findById(proId)));

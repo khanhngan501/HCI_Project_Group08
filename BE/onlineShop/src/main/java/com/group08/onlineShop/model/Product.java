@@ -1,5 +1,6 @@
 package com.group08.onlineShop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +15,6 @@ public class Product {
     private Long id;
     private String name;
     private Double price;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
 }
