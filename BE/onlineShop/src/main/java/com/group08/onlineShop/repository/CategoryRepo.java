@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.UUID;
 
-public interface CategoryRepo extends JpaRepository<Category, UUID> {
+public interface CategoryRepo extends JpaRepository<Category, Long> {
     @Query("select c from Category c")
-    List<Category> findAllParentCategory();
+    List<Category> findAllCategory();
 }

@@ -10,8 +10,7 @@ import java.util.UUID;
 @Table(name = "category")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String categoryName;
 }

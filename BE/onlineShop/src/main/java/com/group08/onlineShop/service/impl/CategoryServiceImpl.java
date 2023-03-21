@@ -21,7 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepo categoryRepo;
 
     @Override
-    public Category findById(UUID id) {
+    public Category findById(Long id) {
         Optional<Category> category = categoryRepo.findById(id);
         return category.orElse(null);
 
@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findAll() {
-        return categoryRepo.findAllParentCategory();
+        return categoryRepo.findAllCategory();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Boolean deleteCategory(UUID categoryId) {
+    public Boolean deleteCategory(Long categoryId) {
         Category categoryDelete = findById(categoryId);
         if(categoryDelete!= null){
             categoryRepo.deleteById(categoryDelete.getId());
