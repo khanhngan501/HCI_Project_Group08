@@ -11,6 +11,4 @@ import java.util.UUID;
 
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Long> {
-    @Query("select p from Product p")
-    List<Product> findAllProduct();
 }

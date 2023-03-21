@@ -31,6 +31,15 @@ public class ProductController {
             return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
         }
     }
+    @GetMapping("/product")
+    public ResponseEntity<?> getProductById(@RequestParam Long proId)
+    {
+        try {
+            return ResponseEntity.ok(new ResponseDTO(true, "Success", productService.findById(proId)));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
+        }
+    }
     @PutMapping("/update-product")
     public ResponseEntity<?> updateProduct(@RequestBody ProductReq productReq)
     {

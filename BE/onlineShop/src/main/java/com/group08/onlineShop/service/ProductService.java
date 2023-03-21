@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface ProductService {
     Product saveNewProduct(ProductReq productReq);
 
-    Product findProductById(Long productId);
+    Product findById(Long productId);
 
     List<Product> findAll() ;
     Product updateProduct(ProductReq productReq);

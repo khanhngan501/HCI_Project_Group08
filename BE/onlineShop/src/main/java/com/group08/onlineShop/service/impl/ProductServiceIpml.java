@@ -33,24 +33,22 @@ public class ProductServiceIpml implements ProductService {
     }
     @Override
     public List<Product> findAll() {
-        return productRepo.findAllProduct();
+        return productRepo.findAll();
     }
     @Override
-    public Product findProductById(Long productId) {
-        Optional<Product> product = productRepo.findById(productId);
+    public Product findById(Long productId) {
+        var product = productRepo.findById(productId);
         return product.orElse(null);
     }
 
     @Override
     public Product updateProduct(ProductReq productReq) {
-        Product productUpdate = findProductById(productReq.getId());
+        Product productUpdate = findById(productReq.getId());
         if(productUpdate!=null){
-            Product product = new Product();
-            Category category = categoryRepo.getReferenceById(productReq.getCategory().getId());
-            product.setCategory(category);
-            product.setPrice(productReq.getPrice());
-            product.setName(productReq.getName());
-            return productRepo.save(product);
+            productUpdate.setCategory(productReq.getCategory());
+            productUpdate.setPrice(productReq.getPrice());
+            productUpdate.setName(productReq.getName());
+            return productUpdate;
         }
         else
             throw new AppException(400,"Product does not exists");
