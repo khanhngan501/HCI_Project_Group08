@@ -6,13 +6,11 @@ import com.group08.onlineShop.model.Category;
 import com.group08.onlineShop.repository.CategoryRepo;
 import com.group08.onlineShop.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(CategoryDTO categoryDTO) {
-        Category category= new Category();
+        Category category = new Category();
         category.setCategoryName(categoryDTO.getCategoryName());
         return categoryRepo.save(category);
 
@@ -47,16 +45,18 @@ public class CategoryServiceImpl implements CategoryService {
             categoryUpdate.setCategoryName(categoryDTO.getCategoryName());
 
             return categoryRepo.save(categoryUpdate);
-        } else throw new AppException(404, "Comment ID not found");
+        } else
+            throw new AppException(404, "Comment ID not found");
 
     }
 
     @Override
     public Boolean deleteCategory(Long categoryId) {
         Category categoryDelete = findById(categoryId);
-        if(categoryDelete!= null){
+        if (categoryDelete != null) {
             categoryRepo.deleteById(categoryDelete.getId());
             return true;
-        } else return false;
+        } else
+            return false;
     }
 }

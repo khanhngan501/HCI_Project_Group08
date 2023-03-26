@@ -3,8 +3,6 @@ package com.group08.onlineShop.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @Entity
 @Table(name = "category")

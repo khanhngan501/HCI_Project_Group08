@@ -3,8 +3,6 @@ package com.group08.onlineShop.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @Entity
 @Table(name = "account")
@@ -16,6 +14,4 @@ public class Account {
     private String password;
     private Boolean isAdmin;
     private Boolean active;
-
-
 }
