@@ -33,7 +33,7 @@ public class CloudinaryUpload {
     public String uploadImage(MultipartFile file, String urlDestroy) throws IOException {
         Map params = ObjectUtils.asMap(
                 "resource_type", "auto",
-                "folder", "tgdd"
+                "folder", "onlineShop"
         );
         Map map = cloudinary().uploader().upload(Utils.convertMultiPartToFile(file),params);
         if (urlDestroy!= null) {
