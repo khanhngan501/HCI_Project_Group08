@@ -17,9 +17,9 @@ public class CloudinaryUpload {
     @Bean
     public Cloudinary cloudinary(){
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "quangdangcloud",
-                "api_key", "738222114899535",
-                "api_secret", "V37UHtOmQ62U1VH-kXyd7kRLgf4",
+                "cloud_name", "dmbw0zfbf",
+                "api_key", "956322825328282",
+                "api_secret", "wQspX5yeLjsNy-TFsToF7MyC8Zs",
                 "secure", true));
         return cloudinary;
     }
@@ -43,7 +43,7 @@ public class CloudinaryUpload {
         return map.get("secure_url").toString();
     }
     public void deleteImage(String urlImage) throws IOException {
-        cloudinary().uploader().destroy("tgdd/" + getPublicId(urlImage)
+        cloudinary().uploader().destroy("onlineShop/" + getPublicId(urlImage)
                 , ObjectUtils.asMap("resource_type", "image"));
     }
 
