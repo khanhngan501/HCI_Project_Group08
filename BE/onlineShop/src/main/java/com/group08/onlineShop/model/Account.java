@@ -11,7 +11,11 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
+    private String firstName;
+    private String lastName;
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
     private String password;
-    private Boolean isAdmin;
     private Boolean active;
 }
