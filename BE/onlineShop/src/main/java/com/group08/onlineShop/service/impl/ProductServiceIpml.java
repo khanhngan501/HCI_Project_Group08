@@ -1,7 +1,8 @@
 package com.group08.onlineShop.service.impl;
 
-import com.group08.onlineShop.dto.ProductReq;
+import com.group08.onlineShop.dto.requestDTO.ProductReq;
 import com.group08.onlineShop.exception.AppException;
+import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Category;
 import com.group08.onlineShop.model.Product;
 import com.group08.onlineShop.repository.CategoryRepo;
@@ -37,27 +38,25 @@ public class ProductServiceIpml implements ProductService {
     }
 
     @Override
-    public Product findById(Long productId) {
-        var product = productRepo.findById(productId);
-        return product.orElse(null);
+    public Product findById(Long productId) throws ResourceNotFoundException {
+        var product = productRepo.findById(productId).
+                orElseThrow(() -> new ResourceNotFoundException("Product", "productID", Long.toString(productId)));
+        return product;
     }
 
     @Override
-    public Product updateProduct(ProductReq productReq) {
-        Product productUpdate = findById(productReq.getId());
-        if (productUpdate != null) {
-            productUpdate.setCategory(productReq.getCategory());
-            productUpdate.setPrice(productReq.getPrice());
-            productUpdate.setName(productReq.getName());
-            return productUpdate;
-        } else
-            throw new AppException(400, "Product does not exists");
+    public Product updateProduct(Long proId, ProductReq productReq) throws ResourceNotFoundException {
+        Product productUpdate = findById(proId);
+        productUpdate.setCategory(productReq.getCategory());
+        productUpdate.setPrice(productReq.getPrice());
+        productUpdate.setProductName(productReq.getProductName());
+        return productUpdate;
     }
 
     @Override
     public boolean deleteProductById(Long id) {
-        Product prductDelete = productRepo.findById(id).orElse(null);
-        if (prductDelete != null) {
+        Product productDelete = productRepo.findById(id).orElse(null);
+        if (productDelete != null) {
             productRepo.deleteById(id);
             return true;
         } else {

@@ -1,9 +1,13 @@
 package com.group08.onlineShop.controller;
 
-import com.group08.onlineShop.dto.ProductReq;
-import com.group08.onlineShop.dto.ResponseDTO;
+import com.group08.onlineShop.dto.requestDTO.ProductReq;
+import com.group08.onlineShop.dto.responseDTO.ApiResponse;
+import com.group08.onlineShop.dto.responseDTO.ProductResp;
+import com.group08.onlineShop.exception.ResourceNotFoundException;
+import com.group08.onlineShop.model.Product;
 import com.group08.onlineShop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,45 +20,48 @@ public class ProductController {
     @PostMapping("/post-product")
     public ResponseEntity<?> postProduct(@RequestBody ProductReq productReq) {
         try {
-            return ResponseEntity.ok(new ResponseDTO(true, "Success", productService.saveNewProduct(productReq)));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.CREATED, productService.saveNewProduct(productReq)));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
         }
     }
 
     @GetMapping("/all-product")
     public ResponseEntity<?> getAllProduct() {
         try {
-            return ResponseEntity.ok(new ResponseDTO(true, "Success", productService.findAll()));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK, productService.findAll()));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
         }
     }
 
     @GetMapping("/product/{proId}")
     public ResponseEntity<?> getProductById(@PathVariable(value = "proId") Long proId) {
         try {
-            return ResponseEntity.ok(new ResponseDTO(true, "Success", productService.findById(proId)));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK, productService.findById(proId)));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
         }
     }
 
-    @PutMapping("/update-product")
-    public ResponseEntity<?> updateProduct(@RequestBody ProductReq productReq) {
-        try {
-            return ResponseEntity.ok(new ResponseDTO(true, "Success", productService.updateProduct(productReq)));
-        } catch (Exception e) {
-            return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
-        }
+    @PutMapping("/update-product/{proId}")
+    public ResponseEntity<?> updateProduct(@PathVariable(value = "proId")  Long proId, @RequestBody ProductReq productReq) throws ResourceNotFoundException {
+//        try {
+//            Product productResp = productService.updateProduct(proId, productReq);
+//            return new ResponseEntity<>(productResp, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
+//        }
+        Product productResp = productService.updateProduct(proId, productReq);
+        return new ResponseEntity<>(productResp, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-product")
     public ResponseEntity<?> deleteProduct(@RequestParam Long productId) {
         try {
-            return ResponseEntity.ok(new ResponseDTO(true, "Success", productService.deleteProductById(productId)));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK, productService.deleteProductById(productId)));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
         }
     }
 }
