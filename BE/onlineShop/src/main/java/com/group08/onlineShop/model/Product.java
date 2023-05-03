@@ -12,6 +12,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "productName")
     private String productName;
     private Double price;
     @ManyToOne(fetch = FetchType.EAGER)

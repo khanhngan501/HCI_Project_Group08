@@ -22,7 +22,6 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findById(Long id) {
         Optional<Category> category = categoryRepo.findById(id);
         return category.orElse(null);
-
     }
 
     @Override

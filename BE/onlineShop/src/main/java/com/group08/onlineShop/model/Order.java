@@ -3,7 +3,7 @@ package com.group08.onlineShop.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 @Entity
@@ -15,8 +15,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private Instant createAt;
+    private Instant updateAt;
     private String receiverName;
     private String receiverPhoneNumber;
     private String address;
