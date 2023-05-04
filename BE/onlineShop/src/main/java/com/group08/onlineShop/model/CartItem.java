@@ -22,7 +22,7 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
     private Integer quantity;
-    @Column(name = "totalPrice")
+    @Column(name = "total_price")
     private Double totalPrice;
     private String size;
     private String color;

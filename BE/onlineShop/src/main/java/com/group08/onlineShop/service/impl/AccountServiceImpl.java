@@ -17,9 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -38,8 +36,8 @@ public class AccountServiceImpl implements AccountService {
             throw new ResourceNotFoundException("Account", "email", email);
         }
         Account accountResult = account.get();
-        Role roleAccount = accountResult.getRole();
-        Long roleID = roleAccount.getId();
+//        Set<Role> roleAccount = accountResult.getRoles();
+        Long roleID = Long.valueOf(1);
 
         return new AccountResponseDTO(accountResult.getId(), accountResult.getEmail(), accountResult.getFirstName(),
                 accountResult.getLastName(), roleID, accountResult.getActive());
@@ -47,11 +45,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public PagedResponse<Account> getAccountByRole(long role_id, int page, int size) throws ResourceNotFoundException {
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "email");
-        Page<Account> accounts = accountRepo.findAccountByRole(role_id, pageable);
-        List<Account> content = accounts.getNumberOfElements() == 0 ? Collections.emptyList() : accounts.getContent();
-        return new PagedResponse<>(content, accounts.getNumber(), accounts.getSize(), accounts.getTotalElements(),
-                accounts.getTotalPages(), accounts.isLast());
+//        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "email");
+//        Page<Account> accounts = accountRepo.findAccountByRole(role_id, pageable);
+//        List<Account> content = accounts.getNumberOfElements() == 0 ? Collections.emptyList() : accounts.getContent();
+//        return new PagedResponse<>(content, accounts.getNumber(), accounts.getSize(), accounts.getTotalElements(),
+//                accounts.getTotalPages(), accounts.isLast());
+        return null;
     }
 
     @Override
