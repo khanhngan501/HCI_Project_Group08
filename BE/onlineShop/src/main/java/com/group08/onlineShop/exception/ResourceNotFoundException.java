@@ -41,6 +41,6 @@ public class ResourceNotFoundException extends Exception{
 
     private void setApiResponse() {
         String message = String.format("%s not found with %s: '%s'", resourceName, fieldName, fieldValue);
-        apiResponse = new ApiResponse(Boolean.FALSE, message, HttpStatus.NOT_FOUND);
+        apiResponse = new ApiResponse(Boolean.FALSE, message, HttpStatus.NOT_FOUND.value());
     }
 }

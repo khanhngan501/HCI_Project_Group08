@@ -20,27 +20,27 @@ public class ProductController {
     @PostMapping("/post-product")
     public ResponseEntity<?> postProduct(@RequestBody ProductReq productReq) {
         try {
-            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.CREATED, productService.saveNewProduct(productReq)));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.CREATED.value(), productService.saveNewProduct(productReq)));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 
     @GetMapping("/all-product")
     public ResponseEntity<?> getAllProduct() {
         try {
-            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK, productService.findAll()));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productService.findAll()));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 
     @GetMapping("/product/{proId}")
     public ResponseEntity<?> getProductById(@PathVariable(value = "proId") Long proId) {
         try {
-            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK, productService.findById(proId)));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productService.findById(proId)));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 
@@ -59,9 +59,9 @@ public class ProductController {
     @DeleteMapping("/delete-product")
     public ResponseEntity<?> deleteProduct(@RequestParam Long productId) {
         try {
-            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK, productService.deleteProductById(productId)));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productService.deleteProductById(productId)));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 }
