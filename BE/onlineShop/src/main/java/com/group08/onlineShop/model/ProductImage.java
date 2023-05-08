@@ -7,8 +7,6 @@ import org.modelmapper.spi.StrongTypeConditionalConverter;
 
 @Data
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "product_image")
@@ -20,9 +18,7 @@ public class ProductImage {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    @Column(name = "imageLink")
     private String imageLink;
-    @Column(name = "isDefault")
     private Integer isDefault;
     private String color;
 }

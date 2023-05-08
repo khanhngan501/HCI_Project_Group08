@@ -46,12 +46,6 @@ public class ProductController {
 
     @PutMapping("/update-product/{proId}")
     public ResponseEntity<?> updateProduct(@PathVariable(value = "proId")  Long proId, @RequestBody ProductReq productReq) throws ResourceNotFoundException {
-//        try {
-//            Product productResp = productService.updateProduct(proId, productReq);
-//            return new ResponseEntity<>(productResp, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST));
-//        }
         Product productResp = productService.updateProduct(proId, productReq);
         return new ResponseEntity<>(productResp, HttpStatus.OK);
     }

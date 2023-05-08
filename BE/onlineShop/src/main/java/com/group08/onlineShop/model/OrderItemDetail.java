@@ -1,17 +1,17 @@
 package com.group08.onlineShop.model;
 
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.awt.print.PrinterGraphics;
-import java.util.function.DoubleToLongFunction;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cart_item")
-public class CartItem {
+@Table(name = "order_item_detail")
+public class OrderItemDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -24,6 +24,6 @@ public class CartItem {
     private String size;
     private String color;
     @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @JoinColumn(name = "order_item_id")
+    private OrderItem orderItem;
 }

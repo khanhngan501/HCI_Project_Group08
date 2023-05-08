@@ -5,8 +5,6 @@ import lombok.*;
 
 @Data
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cart")
@@ -18,4 +16,8 @@ public class Cart {
     @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    public Cart(Account account) {
+        this.account = account;
+    }
 }

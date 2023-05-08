@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @Table(name = "review")
 public class Review {
     @Id
@@ -21,7 +19,6 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
-    @Column(name = "createAt")
     private Instant createAt;
     private String content;
     private Float rate;

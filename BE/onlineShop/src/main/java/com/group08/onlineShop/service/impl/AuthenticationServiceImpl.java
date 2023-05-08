@@ -7,7 +7,9 @@ import com.group08.onlineShop.exception.UserNotFoundException;
 import com.group08.onlineShop.model.Account;
 import com.group08.onlineShop.model.Role;
 import com.group08.onlineShop.repository.AccountRepo;
+import com.group08.onlineShop.repository.CartRepo;
 import com.group08.onlineShop.service.AuthenticationService;
+import com.group08.onlineShop.service.CartService;
 import com.group08.onlineShop.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final AccountRepo accountRepo;
+    private final CartService cartService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -37,6 +40,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .active(true)
                 .build();
         accountRepo.save(user);
+        cartService.createCart(user.getId());
         var jwtToken = jwtService.generateToken(user);
         return new ResponseEntity<>(AuthenticationResponse.builder()
                 .token(jwtToken)

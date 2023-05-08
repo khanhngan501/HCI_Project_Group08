@@ -17,10 +17,10 @@ public class Customer {
     @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
-    @Column(name = "phone_number", length = 12)
+    @Column(length = 12)
     private String phoneNumber;
-    @Column(name = "default_address", length = 50)
+    @Column(length = 50)
     private String defaultAddress;
-    @Column(name = "customer_name", length = 45)
+    @Column(length = 45)
     private String customerName;
 }
