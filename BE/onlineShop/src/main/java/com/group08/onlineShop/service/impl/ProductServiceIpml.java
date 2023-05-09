@@ -47,6 +47,7 @@ public class ProductServiceIpml implements ProductService {
     public Product updateProduct(ProductReq productReq) {
         Product productUpdate = findById(productReq.getId());
         if (productUpdate != null) {
+            productUpdate.setType(productReq.getTypeProduct());
             productUpdate.setCategory(productReq.getCategory());
             productUpdate.setPrice(productReq.getPrice());
             productUpdate.setName(productReq.getName());

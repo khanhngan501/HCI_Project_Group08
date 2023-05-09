@@ -10,4 +10,5 @@ public class ProductReq {
     private String name;
     private Double price;
     private Category category;
+    private TypeProduct typeProduct;
 }
