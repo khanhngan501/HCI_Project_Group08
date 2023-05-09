@@ -1,5 +1,6 @@
 package com.group08.onlineShop.model;
 
+import com.group08.onlineShop.dto.TypeProduct;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class Product {
     private Double price;
     @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
+    private TypeProduct type;
 }

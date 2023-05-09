@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,7 +54,25 @@ public class ProductServiceIpml implements ProductService {
         } else
             throw new AppException(400, "Product does not exists");
     }
-
+    @Override
+    public List<Product> suggestProduct(ProductReq productReq) {
+        Product product = findById(productReq.getId());
+        List<Product> productAll = findAll();
+        List<Product> sugProd = new ArrayList<>();
+        productAll.forEach(
+                pA ->{
+                    if(pA.getCategory() == product.getCategory())
+                    {
+                        sugProd.add(pA);
+                    }
+                    else if(pA.getType() == product.getType())
+                    {
+                        sugProd.add(pA);
+                    }
+                }
+        );
+        return sugProd;
+    }
     @Override
     public boolean deleteProductById(Long id) {
         Product prductDelete = productRepo.findById(id).orElse(null);

@@ -30,7 +30,14 @@ public class ProductController {
             return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
         }
     }
-
+    @GetMapping("/sugest-product")
+    public ResponseEntity<?> sugestProduct(@RequestBody ProductReq productReq) {
+        try {
+            return ResponseEntity.ok(new ResponseDTO(true, "Success", productService.suggestProduct(productReq)));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new ResponseDTO(false, e.getMessage(), null));
+        }
+    }
     @GetMapping("/product/{proId}")
     public ResponseEntity<?> getProductById(@PathVariable(value = "proId") Long proId) {
         try {
