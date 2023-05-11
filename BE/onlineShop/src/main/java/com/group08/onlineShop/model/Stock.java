@@ -21,4 +21,11 @@ public class Stock {
     private String size;
     private String color;
     private Integer quantity;
+
+    public Stock(Product product, String size, String color, Integer quantity) {
+        this.product = product;
+        this.size = size;
+        this.color = color;
+        this.quantity = quantity;
+    }
 }
