@@ -4,6 +4,7 @@ import com.group08.onlineShop.dto.requestDTO.StockRequest;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.StockResponse;
 import com.group08.onlineShop.exception.BadRequestException;
+import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Product;
 import com.group08.onlineShop.model.Stock;
 import com.group08.onlineShop.repository.ProductRepo;
@@ -52,7 +53,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public StockResponse createStock(StockRequest stockRequest) {
+    public StockResponse addProductToStock(StockRequest stockRequest) {
         Optional<Product> product = productRepo.findById(stockRequest.getProduct());
         if (product != null) {
             Stock stock = stockRepo.findStockByProductAndColorAndSize(product.get(),
@@ -96,8 +97,20 @@ public class StockServiceImpl implements StockService {
                 throw new BadRequestException(apiResponse);
             }
         }
-        ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Cannot add an unknown product to stock",
+        ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Cannot find stock item to update",
                 HttpStatus.NOT_FOUND.value());
+        throw new BadRequestException(apiResponse);
+    }
+
+    @Override
+    public ApiResponse deleteStockByID(Long stockID){
+        Optional<Stock> stock = stockRepo.findById(stockID);
+        if (stock != null) {
+            stockRepo.deleteById(stockID);
+            return new ApiResponse(Boolean.TRUE, "Stock deleted successfully");
+        }
+        ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Cannot delete stock with stockID = " + stockID
+                + ". Resource not found!", HttpStatus.NOT_FOUND.value());
         throw new BadRequestException(apiResponse);
     }
 
