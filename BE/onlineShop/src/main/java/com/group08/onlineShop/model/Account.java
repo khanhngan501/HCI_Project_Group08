@@ -23,6 +23,10 @@ public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne(mappedBy = "account")
+    private Token token;
+
     private String email;
     @Column(name = "first_name", length = 20)
     private String firstName;
