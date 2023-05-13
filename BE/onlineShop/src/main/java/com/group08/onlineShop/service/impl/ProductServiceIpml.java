@@ -72,6 +72,15 @@ public class ProductServiceIpml implements ProductService {
         );
         return sugProd;
     }
+
+    @Override
+    public List<Product> filterProduct(String keyword) throws ResourceNotFoundException {
+        if (keyword != null) {
+            return productRepo.search(keyword);
+        }
+        return productRepo.findAll();
+    }
+
     @Override
     public boolean deleteProductById(Long id) {
         Product productDelete = productRepo.findById(id).orElse(null);
