@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface StockRepo extends JpaRepository<Stock, Long> {
     List<Stock> findStocksByProduct(Product product);
-    List<Stock> findStocksByQuantityGreaterThan(Integer quantity);
     Stock findStockByProductAndColorAndSize(Product product, String color, String size);
 }

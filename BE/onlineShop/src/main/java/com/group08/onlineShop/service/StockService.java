@@ -15,7 +15,7 @@ public interface StockService {
 
     StockResponse getStockByProductAndColorAndSize(Long productID, String color, String size);
 
-    StockResponse addProductToStock(StockRequest stockRequest);
+    StockResponse addProductToStock(StockRequest stockRequest) throws ResourceNotFoundException;
 
     StockResponse updateStockQuantity(Long stockID, String action, StockRequest stockRequest);
 

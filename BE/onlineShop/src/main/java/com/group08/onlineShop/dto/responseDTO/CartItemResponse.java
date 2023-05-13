@@ -14,9 +14,9 @@ public class CartItemResponse {
     private Double totalPrice;
     private String size;
     private String color;
-    private Long cart;
+    private Cart cart;
 
-    public CartItemResponse(Long id, Long product, Integer quantity, Double totalPrice, String size, String color, Long cart) {
+    public CartItemResponse(Long id, Long product, Integer quantity, Double totalPrice, String size, String color, Cart cart) {
         this.id = id;
         this.product = product;
         this.quantity = quantity;

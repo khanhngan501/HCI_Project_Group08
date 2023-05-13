@@ -26,7 +26,7 @@ public class ProductServiceIpml implements ProductService {
 
     @Override
     public Product saveNewProduct(ProductReq productReq) {
-        Category category = categoryRepo.findById(productReq.getCategory().getId()).orElse(null);
+        Category category = categoryRepo.findById(productReq.getCategory()).orElse(null);
         Product product = modelMapper.map(productReq, Product.class);
         product.setCategory(category);
         productRepo.save(product);
@@ -48,7 +48,9 @@ public class ProductServiceIpml implements ProductService {
     @Override
     public Product updateProduct(Long proId, ProductReq productReq) throws ResourceNotFoundException {
         Product productUpdate = findById(proId);
-        productUpdate.setCategory(productReq.getCategory());
+        Category category = categoryRepo.findById(productReq.getCategory()).orElseThrow(()
+        -> new ResourceNotFoundException("Category", "categoryID", productReq.getCategory()));
+        productUpdate.setCategory(category);
         productUpdate.setPrice(productReq.getPrice());
         productUpdate.setProductName(productReq.getProductName());
         return productUpdate;

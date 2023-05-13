@@ -58,7 +58,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .active(true)
                 .build();
         accountRepo.save(user);
-        cartService.createCart(user.getId());
         var jwtToken = jwtService.generateToken(user);
         return new ResponseEntity<>(AuthenticationResponse.builder()
                 .token(jwtToken)

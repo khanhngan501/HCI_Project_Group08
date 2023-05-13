@@ -12,7 +12,5 @@ public class ProductReq {
     private Long id;
     private String productName;
     private Double price;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private Long category;
 }

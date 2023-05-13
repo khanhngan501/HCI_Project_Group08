@@ -14,6 +14,4 @@ public class CartItemRequest {
     private String size;
     private String color;
     private Long cart;
-
-
 }

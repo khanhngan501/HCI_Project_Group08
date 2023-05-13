@@ -1,5 +1,6 @@
 package com.group08.onlineShop.service.impl;
 
+import com.group08.onlineShop.dto.requestDTO.CartRequest;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.CartResponse;
 import com.group08.onlineShop.exception.BadRequestException;
@@ -26,8 +27,17 @@ public class CartServiceImpl implements CartService {
     private final AccountRepo accountRepo;
 
     @Override
-    public CartResponse createCart(Long accountID) {
-        Optional<Account> account = accountRepo.findById(accountID);
+    public CartResponse getCartByAccount(Long accountID) throws ResourceNotFoundException {
+        Account account = accountRepo.findById(accountID).
+                orElseThrow(() -> new ResourceNotFoundException("Account", "accountID", accountID));
+        Cart cart = cartRepo.findCartByAccount(account).
+                orElseThrow(() -> new ResourceNotFoundException("Cart", "accountID", accountID));
+        return new CartResponse(cart.getAccount().getId(), cart.getId());
+    }
+
+    @Override
+    public CartResponse createCart(CartRequest cartRequest) {
+        Optional<Account> account = accountRepo.findById(cartRequest.getAccount_id());
         if (account != null) {
             Cart cart = new Cart(account.get());
             Cart newCart = cartRepo.save(cart);
@@ -35,5 +45,13 @@ public class CartServiceImpl implements CartService {
         }
         ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Can not create cart for this user", HttpStatus.BAD_REQUEST.value());
         throw new BadRequestException(apiResponse);
+    }
+
+    @Override
+    public ApiResponse deleteCartByID(Long cartID) throws ResourceNotFoundException {
+        Cart cart = cartRepo.findById(cartID).orElseThrow(() ->
+                new ResourceNotFoundException("Cart", "cartID", cartID));
+        cartRepo.deleteById(cartID);
+        return new ApiResponse(Boolean.TRUE, "Cart deleted successfully");
     }
 }

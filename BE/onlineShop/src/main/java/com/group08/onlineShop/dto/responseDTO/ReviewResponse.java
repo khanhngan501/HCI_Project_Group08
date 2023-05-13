@@ -14,11 +14,11 @@ public class ReviewResponse {
     private Long product;
     private Instant createAt;
     private String content;
-    private Float rate;
+    private Double rate;
     private Integer like;
     private Integer dislike;
 
-    public ReviewResponse(Long id, Long account, Long product, Instant createAt, String content, Float rate, Integer like, Integer dislike) {
+    public ReviewResponse(Long id, Long account, Long product, Instant createAt, String content, Double rate, Integer like, Integer dislike) {
         this.id = id;
         this.account = account;
         this.product = product;

@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -62,12 +64,18 @@ public class ReviewServiceImpl implements ReviewService {
         Product product = productRepo.findById(reviewRequest.getProduct()).orElseThrow(()
                 -> new ResourceNotFoundException("Product", "productID", reviewRequest.getProduct()));
         Review newReview = new Review(account,
-                product, reviewRequest.getCreateAt(), reviewRequest.getContent(),
+                product,  Instant.now(), reviewRequest.getContent(),
                 reviewRequest.getRate(), reviewRequest.getLike(), reviewRequest.getDislike());
-        Review postedReview = reviewRepo.save(newReview);
-        return new ReviewResponse(postedReview.getId(), postedReview.getAccount().getId(),
-                postedReview.getProduct().getId(), postedReview.getCreateAt(), postedReview.getContent(),
-                postedReview.getRate(), postedReview.getLike(), postedReview.getDislike());
+        newReview.setAccount(account);
+        newReview.setDislike(reviewRequest.getDislike());
+        newReview.setLike(reviewRequest.getLike());
+        newReview.setProduct(product);
+        newReview.setContent(reviewRequest.getContent());
+        newReview.setCreateAt(Instant.now());
+        reviewRepo.save(newReview);
+        return new ReviewResponse(newReview.getId(), newReview.getAccount().getId(),
+                newReview.getProduct().getId(), newReview.getCreateAt(), newReview.getContent(),
+                newReview.getRate(), newReview.getLike(), newReview.getDislike());
     }
 
     @Override

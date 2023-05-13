@@ -8,9 +8,8 @@ import java.time.Instant;
 public class ReviewRequest {
     private Long account;
     private Long product;
-    private Instant createAt;
     private String content;
-    private Float rate;
+    private Double rate;
     private Integer like;
     private Integer dislike;
 }

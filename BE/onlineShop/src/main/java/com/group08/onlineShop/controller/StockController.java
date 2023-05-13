@@ -2,6 +2,7 @@ package com.group08.onlineShop.controller;
 
 import com.group08.onlineShop.dto.requestDTO.StockRequest;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
+import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.service.StockService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,13 +50,13 @@ public class StockController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> addProductToStock(
             @RequestBody StockRequest stockRequest
-    ) {
+    ) throws ResourceNotFoundException {
         return ResponseEntity.ok(new ApiResponse(true,
                 "Success", HttpStatus.OK.value(),
                 stockService.addProductToStock(stockRequest)));
     }
 
-    @PutMapping("/post-stocks")
+    @PutMapping("/update-stock")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> updateStockQuantity(
             @RequestParam(name = "stockID") Long stockID,
@@ -67,7 +68,7 @@ public class StockController {
                 stockService.updateStockQuantity(stockID, action, stockRequest)));
     }
 
-    @DeleteMapping("/post-stocks")
+    @DeleteMapping("/delete-stock")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteStockByID(
             @RequestParam(name = "stockID") Long stockID

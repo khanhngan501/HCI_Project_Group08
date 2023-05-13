@@ -24,11 +24,11 @@ public class Review {
     private Product product;
     private Instant createAt;
     private String content;
-    private Float rate;
+    private Double rate;
     private Integer like;
     private Integer dislike;
 
-    public Review(Account account, Product product, Instant createAt, String content, Float rate, Integer like, Integer dislike) {
+    public Review(Account account, Product product, Instant createAt, String content, Double rate, Integer like, Integer dislike) {
         this.account = account;
         this.product = product;
         this.createAt = createAt;
