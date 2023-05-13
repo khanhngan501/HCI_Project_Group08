@@ -30,9 +30,11 @@ public class ProductController {
     @GetMapping("/all-product")
     public ResponseEntity<?> getAllProduct() {
         try {
-            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productService.findAll()));
+            return ResponseEntity.ok(new ApiResponse(true,
+                    "Success", HttpStatus.OK.value(), productService.findAll()));
         } catch (Exception e) {
-            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+            return ResponseEntity.ok(new ApiResponse(false,
+                    e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
 

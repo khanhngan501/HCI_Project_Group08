@@ -17,7 +17,7 @@ public interface StockService {
 
     StockResponse addProductToStock(StockRequest stockRequest);
 
-    StockResponse updateStockQuantity(Long stockID, String action);
+    StockResponse updateStockQuantity(Long stockID, String action, StockRequest stockRequest);
 
     ApiResponse deleteStockByID(Long stockID);
 }

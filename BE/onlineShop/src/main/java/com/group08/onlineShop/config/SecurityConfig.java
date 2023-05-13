@@ -26,7 +26,6 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/account/**").permitAll()
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .anyRequest().authenticated()
-
                 );
 
         return http.build();

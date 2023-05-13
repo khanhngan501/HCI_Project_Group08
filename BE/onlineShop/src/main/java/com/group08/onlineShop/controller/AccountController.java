@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController @Slf4j
-@RequestMapping("api/account") @RequiredArgsConstructor
+@RequestMapping("api/account")
+@RequiredArgsConstructor
+@CrossOrigin(origins ="http://localhost:3000")
 public class AccountController {
 
     private final AuthenticationService authenticationService;

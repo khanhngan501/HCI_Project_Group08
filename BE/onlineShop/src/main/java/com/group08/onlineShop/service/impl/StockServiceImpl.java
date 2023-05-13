@@ -4,7 +4,6 @@ import com.group08.onlineShop.dto.requestDTO.StockRequest;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.StockResponse;
 import com.group08.onlineShop.exception.BadRequestException;
-import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Product;
 import com.group08.onlineShop.model.Stock;
 import com.group08.onlineShop.repository.ProductRepo;
@@ -59,7 +58,7 @@ public class StockServiceImpl implements StockService {
             Stock stock = stockRepo.findStockByProductAndColorAndSize(product.get(),
                     stockRequest.getColor(), stockRequest.getSize());
             if (stock != null) {
-                return updateStockQuantity(stock.getId(), "created");
+                return updateStockQuantity(stock.getId(), "created", stockRequest);
             }
             Stock newStock = new Stock(product.get(), stockRequest.getSize(), stockRequest.getColor(),
                     stockRequest.getQuantity());
@@ -73,19 +72,19 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public StockResponse updateStockQuantity(Long stockID, String action) {
+    public StockResponse updateStockQuantity(Long stockID, String action, StockRequest stockRequest) {
         Optional<Stock> stock = stockRepo.findById(stockID);
         if (stock.isPresent()) {
             Stock updateStock = stock.get();
             if (action == "created") {
-                Integer updateProductEntity = increaseProductQuantityInStock(updateStock.getQuantity(), updateStock.getQuantity());
+                Integer updateProductEntity = increaseProductQuantityInStock(updateStock.getQuantity(), stockRequest.getQuantity());
                 updateStock.setQuantity(updateProductEntity);
                 Stock updatedStock = stockRepo.save(updateStock);
                 return new StockResponse(updatedStock.getId(), updatedStock.getProduct().getId(),
                         updatedStock.getSize(), updatedStock.getColor(), updatedStock.getQuantity());
             }
             else if (action == "deleted") {
-                Integer updateProductEntity = decreaseProductQuantityInStock(updateStock.getQuantity(), updateStock.getQuantity());
+                Integer updateProductEntity = decreaseProductQuantityInStock(updateStock.getQuantity(), stockRequest.getQuantity());
                 if (updateProductEntity >= 0) {
                     updateStock.setQuantity(updateProductEntity);
                     Stock updatedStock = stockRepo.save(updateStock);

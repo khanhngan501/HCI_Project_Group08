@@ -1,10 +1,8 @@
 package com.group08.onlineShop.service;
 
 import com.group08.onlineShop.dto.requestDTO.ReviewRequest;
-import com.group08.onlineShop.dto.requestDTO.StockRequest;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.ReviewResponse;
-import com.group08.onlineShop.dto.responseDTO.StockResponse;
 import com.group08.onlineShop.exception.ResourceNotFoundException;
 
 import java.util.List;
