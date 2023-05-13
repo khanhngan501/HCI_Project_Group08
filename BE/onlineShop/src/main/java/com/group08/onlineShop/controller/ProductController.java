@@ -7,6 +7,7 @@ import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Product;
 import com.group08.onlineShop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,25 @@ public class ProductController {
     }
 
     @GetMapping("/all-product")
-    public ResponseEntity<?> getAllProduct() {
+    public ResponseEntity<?> getAllProduct(@Param("keyword") String keyword) {
+        try {
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productService.filterProduct(keyword)));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
+    @GetMapping("/filterProduct")
+    public ResponseEntity<?> filterProduct() {
         try {
             return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productService.findAll()));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
+    @GetMapping("/suggest-product")
+    public ResponseEntity<?> suggestProduct(@RequestBody ProductReq productReq) {
+        try {
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productService.suggestProduct(productReq)));
         } catch (Exception e) {
             return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
