@@ -1,6 +1,7 @@
 package com.group08.onlineShop.dto.requestDTO;
 
 import com.group08.onlineShop.model.Category;
+import com.group08.onlineShop.model.TypeProduct;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -13,4 +14,5 @@ public class ProductReq {
     private String productName;
     private Double price;
     private Long category;
+    private TypeProduct type;
 }

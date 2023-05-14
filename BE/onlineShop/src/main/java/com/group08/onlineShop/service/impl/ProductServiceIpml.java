@@ -46,8 +46,8 @@ public class ProductServiceIpml implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long proId, ProductReq productReq) throws ResourceNotFoundException {
-        Product productUpdate = findById(proId);
+    public Product updateProduct(ProductReq productReq) throws ResourceNotFoundException {
+        Product productUpdate = findById(productReq.getId());
         Category category = categoryRepo.findById(productReq.getCategory()).orElseThrow(()
         -> new ResourceNotFoundException("Category", "categoryID", productReq.getCategory()));
         productUpdate.setCategory(category);

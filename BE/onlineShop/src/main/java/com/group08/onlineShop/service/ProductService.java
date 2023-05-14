@@ -16,7 +16,7 @@ public interface ProductService {
     List<Product> filterProduct(String keyword) throws ResourceNotFoundException;
     List<Product> findAll();
 
-    Product updateProduct(Long proId, ProductReq productReq) throws ResourceNotFoundException;
+    Product updateProduct(ProductReq productReq) throws ResourceNotFoundException;
 
     boolean deleteProductById(Long id);
 

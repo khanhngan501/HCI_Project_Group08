@@ -25,10 +25,10 @@ public class OrderItem {
     private String address;
     private Double deliveryChargers;
     private Double totalPrice;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "status_id")
     private Status status;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private Order order;
 }
