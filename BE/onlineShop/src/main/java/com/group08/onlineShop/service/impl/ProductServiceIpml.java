@@ -1,10 +1,12 @@
 package com.group08.onlineShop.service.impl;
 
 import com.group08.onlineShop.dto.requestDTO.ProductReq;
+import com.group08.onlineShop.dto.responseDTO.SearchProductResp;
 import com.group08.onlineShop.exception.AppException;
 import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Category;
 import com.group08.onlineShop.model.Product;
+import com.group08.onlineShop.model.TypeProduct;
 import com.group08.onlineShop.repository.CategoryRepo;
 import com.group08.onlineShop.repository.ProductRepo;
 import com.group08.onlineShop.service.ProductService;
@@ -32,6 +34,34 @@ public class ProductServiceIpml implements ProductService {
         productRepo.save(product);
         return product;
     }
+    @Override
+    public List<SearchProductResp> getProductByKeyword(String keyword, Long manufacturerId, Long categoryId, TypeProduct type) {
+        Category category = null;
+        if (categoryId != 0 && categoryRepo.existsById(categoryId))
+            category = categoryRepo.getReferenceById(categoryId);
+        List<Product> products = productRepo.findAllByKeyword(keyword.toLowerCase(), category,type);
+
+        return processResponseProductList(products);
+    }
+
+
+    @Override
+    public List<SearchProductResp> search(String keyword) {
+        List<Product> products = productRepo.search(keyword);
+
+        return processResponseProductList(products);
+    }
+
+    List<SearchProductResp> processResponseProductList(List<Product> productsList) {
+        List<SearchProductResp> productRespList = new ArrayList<>();
+        for (Product product : productsList) {
+            SearchProductResp searchProductRespDTO = modelMapper.map(product, SearchProductResp.class);
+            productRespList.add(searchProductRespDTO);
+        }
+        return productRespList;
+    }
+
+
 
     @Override
     public List<Product> findAll() {

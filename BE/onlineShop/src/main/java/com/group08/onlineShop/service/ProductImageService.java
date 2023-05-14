@@ -1,6 +1,5 @@
 package com.group08.onlineShop.service;
 
-import com.group08.onlineShop.dto.requestDTO.ProductImageReq;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
