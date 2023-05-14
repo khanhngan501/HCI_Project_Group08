@@ -34,12 +34,4 @@ public class ProductImageController {
         return ResponseEntity.ok(new ResponseDTO(true,"Success",null));
 
     }
-    @PutMapping(value = "/admin/product/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    private ResponseEntity<?> uploadImageProduct(@RequestParam Long productId,
-                                                 @RequestParam List<MultipartFile> imgs){
-        List<String> urls = productImageService.uploadImageProduct(productId,imgs);
-        return ResponseEntity.ok(new ResponseDTO(true,"Success",urls));
-
-    }
-
 }
