@@ -2,7 +2,6 @@ package com.group08.onlineShop.controller;
 
 import com.group08.onlineShop.dto.requestDTO.ProductReq;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
-import com.group08.onlineShop.dto.responseDTO.ProductResp;
 import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Product;
 import com.group08.onlineShop.service.ProductService;
@@ -29,18 +28,18 @@ public class ProductController {
     }
 
     @GetMapping("/all-product")
-    public ResponseEntity<?> getAllProduct(@Param("keyword") String keyword) {
+    public ResponseEntity<?> getAllProduct(){
         try {
-            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productService.filterProduct(keyword)));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productService.findAll()));
         } catch (Exception e) {
             return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
     }
     @GetMapping("/filterProduct")
-    public ResponseEntity<?> filterProduct() {
+    public ResponseEntity<?> filterProduct(@Param("keyword") String keyword)  {
         try {
             return ResponseEntity.ok(new ApiResponse(true,
-                    "Success", HttpStatus.OK.value(), productService.findAll()));
+                    "Success", HttpStatus.OK.value(), productService.filterProduct(keyword)));
         } catch (Exception e) {
             return ResponseEntity.ok(new ApiResponse(false,
                     e.getMessage(), HttpStatus.BAD_REQUEST.value()));
@@ -64,9 +63,9 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/update-product/{proId}")
-    public ResponseEntity<?> updateProduct(@PathVariable(value = "proId")  Long proId, @RequestBody ProductReq productReq) throws ResourceNotFoundException {
-        Product productResp = productService.updateProduct(proId, productReq);
+    @PutMapping("/update-product")
+    public ResponseEntity<?> updateProduct( @RequestBody ProductReq productReq) throws ResourceNotFoundException {
+        Product productResp = productService.updateProduct( productReq);
         return new ResponseEntity<>(productResp, HttpStatus.OK);
     }
 
