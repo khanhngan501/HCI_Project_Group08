@@ -24,13 +24,30 @@ public class ProductImageServiceimpl implements ProductImageService {
     private final CloudinaryUpload cloudinaryUpload;
 
     @Override
-    public boolean saveNewImage(List<ProductImageReq> productImageReqs) {
+    public List<String> saveNewImage(Long productId, List<MultipartFile> productImageReqs, String color, Integer isDefault) {
         List<ProductImage> productImages = new ArrayList<>();
-        productImageReqs.forEach(image -> {
-            Product product = productRepo.getReferenceById(image.getProductId());
-            productImages.add(new ProductImage(null,product,image.getUrlImage(),image.getIsDefault(),image.getColor()));
+        Product product = productRepo.getReferenceById(productId);
+        if(product!=null){
+            productImageReqs.forEach(image -> {
+                try {
+                    String urlImage= cloudinaryUpload.uploadImage(image,null);
+                    ProductImage productImage = new ProductImage();
+                    productImage.setProduct(product);
+                    productImage.setImageLink(urlImage);
+                    productImage.setColor(color);
+                    productImage.setIsDefault(isDefault);
+                    productImages.add(productImage);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+        productImageRepo.saveAll(productImages);
+        List<String> urls = new ArrayList<>();
+        productImages.forEach(v -> {
+            urls.add(v.getImageLink());
         });
-        return productImageRepo.saveAll(productImages).size() > 0;
+        return urls;
     }
 
     @Override
@@ -49,24 +66,5 @@ public class ProductImageServiceimpl implements ProductImageService {
 
     }
 
-    @Override
-    public List<String> uploadImageProduct(Long productId, List<MultipartFile> imgs) {
-        List<ProductImage> productImages = new ArrayList<>();
-        imgs.forEach(img ->{
-            Product product = productRepo.getReferenceById(productId);
-            try {
-                String url = cloudinaryUpload.uploadImage(img,null);
-                productImages.add(new ProductImage(null,product,url,null,null));
-            } catch (IOException e) {
-                throw new AppException(400,"Failed");
-            }
-        });
-        productImageRepo.saveAll(productImages);
-        List<String> urls = new ArrayList<>();
-        productImages.forEach(productImage -> {
-            urls.add(productImage.getImageLink());
-        });
-        return urls;
-
-    }
+ 
 }

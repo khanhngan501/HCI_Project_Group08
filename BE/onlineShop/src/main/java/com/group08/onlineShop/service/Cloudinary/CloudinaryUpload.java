@@ -17,9 +17,9 @@ public class CloudinaryUpload {
     @Bean
     public Cloudinary cloudinary(){
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "dmbw0zfbf",
-                "api_key", "956322825328282",
-                "api_secret", "wQspX5yeLjsNy-TFsToF7MyC8Zs",
+                "cloud_name", "minhhoang1511",
+                "api_key", "977779789774744",
+                "api_secret", "o2ICe4TBCbEtVIP_9gRrjssNOqg",
                 "secure", true));
         return cloudinary;
     }

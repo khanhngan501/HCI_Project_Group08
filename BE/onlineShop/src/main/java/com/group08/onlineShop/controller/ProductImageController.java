@@ -22,17 +22,10 @@ import java.util.List;
 public class ProductImageController {
     private final ProductImageService productImageService;
 
-    @PostMapping("/admin/productImageUrl")
-    private ResponseEntity<?> addImageProduct(@RequestBody List<ProductImageReq> productImageReqs){
-        if (productImageReqs.size()!=0){
-            boolean check = productImageService.saveNewImage(productImageReqs);
-            if (check) {
-                return ResponseEntity.ok(new ResponseDTO(true,"Success",null));
-            }
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ResponseDTO(false,"Failed",null));
-
+    @PostMapping(value = "/admin/productImageUrl", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    private ResponseEntity<?> addImageProduct(@RequestParam Long productId, @RequestParam List<MultipartFile> images,@RequestParam String color,@RequestParam Integer isDefault){
+            productImageService.saveNewImage(productId,images,color,isDefault);
+            return ResponseEntity.ok(new ResponseDTO(true,"Success",null));
     }
 
     @DeleteMapping("/admin/productImageUrl/{id}")
