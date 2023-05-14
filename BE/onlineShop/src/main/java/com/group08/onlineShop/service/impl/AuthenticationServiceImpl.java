@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     public ResponseEntity<?> authenticate(AuthenticationRequest request)
-            throws UserNotFoundException{
+            throws UserNotFoundException, AuthenticationException {
 
         var user = accountRepo.findAccountByEmail(request.getEmail()).
                 orElseThrow(() -> new UserNotFoundException(request.getEmail()));

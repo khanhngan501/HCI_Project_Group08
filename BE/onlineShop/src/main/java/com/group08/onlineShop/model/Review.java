@@ -1,16 +1,17 @@
 package com.group08.onlineShop.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "review")
+@Table(name = "review_product")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,19 +23,20 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    private Instant createAt;
-    private String content;
-    private Double rate;
-    private Integer like;
-    private Integer dislike;
+    private Instant reviewCreateAt;
+    private String reviewContent;
+    private Double reviewRate;
+    private Integer reviewLike;
+    private Integer reviewDislike;
 
-    public Review(Account account, Product product, Instant createAt, String content, Double rate, Integer like, Integer dislike) {
+    public Review(Account account, Product product, Instant reviewCreateAt, String reviewContent,
+                  Double reviewRate, Integer reviewLike, Integer reviewDislike) {
         this.account = account;
         this.product = product;
-        this.createAt = createAt;
-        this.content = content;
-        this.rate = rate;
-        this.like = like;
-        this.dislike = dislike;
+        this.reviewCreateAt = reviewCreateAt;
+        this.reviewContent = reviewContent;
+        this.reviewRate = reviewRate;
+        this.reviewLike = reviewLike;
+        this.reviewDislike = reviewDislike;
     }
 }

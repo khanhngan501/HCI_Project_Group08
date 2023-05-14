@@ -23,4 +23,5 @@ public class Customer {
     private String defaultAddress;
     @Column(length = 45)
     private String customerName;
+    private Boolean isDefault;
 }

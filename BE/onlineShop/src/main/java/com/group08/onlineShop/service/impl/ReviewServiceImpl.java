@@ -67,15 +67,15 @@ public class ReviewServiceImpl implements ReviewService {
                 product,  Instant.now(), reviewRequest.getContent(),
                 reviewRequest.getRate(), reviewRequest.getLike(), reviewRequest.getDislike());
         newReview.setAccount(account);
-        newReview.setDislike(reviewRequest.getDislike());
-        newReview.setLike(reviewRequest.getLike());
+        newReview.setReviewDislike(reviewRequest.getDislike());
+        newReview.setReviewLike(reviewRequest.getLike());
         newReview.setProduct(product);
-        newReview.setContent(reviewRequest.getContent());
-        newReview.setCreateAt(Instant.now());
+        newReview.setReviewContent(reviewRequest.getContent());
+        newReview.setReviewCreateAt(Instant.now());
         reviewRepo.save(newReview);
         return new ReviewResponse(newReview.getId(), newReview.getAccount().getId(),
-                newReview.getProduct().getId(), newReview.getCreateAt(), newReview.getContent(),
-                newReview.getRate(), newReview.getLike(), newReview.getDislike());
+                newReview.getProduct().getId(), newReview.getReviewCreateAt(), newReview.getReviewContent(),
+                newReview.getReviewRate(), newReview.getReviewLike(), newReview.getReviewDislike());
     }
 
     @Override
@@ -84,16 +84,16 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepo.findById(reviewID).orElseThrow(()
                 -> new ResourceNotFoundException("Review", "reviewID", reviewID));
 //        Set update information
-        review.setContent(reviewRequest.getContent());
-        review.setDislike(reviewRequest.getDislike());
-        review.setLike(reviewRequest.getLike());
-        review.setRate(review.getRate());
+        review.setReviewContent(reviewRequest.getContent());
+        review.setReviewDislike(reviewRequest.getDislike());
+        review.setReviewLike(reviewRequest.getLike());
+        review.setReviewRate(review.getReviewRate());
 //        Save - Update review
         Review updatedReview = reviewRepo.save(review);
 
         return new ReviewResponse(updatedReview.getId(), updatedReview.getAccount().getId(),
-                updatedReview.getProduct().getId(), updatedReview.getCreateAt(), updatedReview.getContent(),
-                updatedReview.getRate(), updatedReview.getLike(), updatedReview.getDislike());
+                updatedReview.getProduct().getId(), updatedReview.getReviewCreateAt(), updatedReview.getReviewContent(),
+                updatedReview.getReviewRate(), updatedReview.getReviewLike(), updatedReview.getReviewDislike());
     }
 
     @Override
@@ -112,8 +112,8 @@ public class ReviewServiceImpl implements ReviewService {
         List<ReviewResponse> reviewResponses = new ArrayList<>(reviews.size());
         for(Review review : reviews) {
             reviewResponses.add(new ReviewResponse(review.getId(), review.getAccount().getId(),
-                    review.getProduct().getId(), review.getCreateAt(), review.getContent(),
-                    review.getRate(), review.getLike(), review.getDislike()));
+                    review.getProduct().getId(), review.getReviewCreateAt(), review.getReviewContent(),
+                    review.getReviewRate(), review.getReviewLike(), review.getReviewDislike()));
         }
         return reviewResponses;
     }

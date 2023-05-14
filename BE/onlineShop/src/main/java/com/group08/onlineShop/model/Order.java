@@ -1,8 +1,9 @@
 package com.group08.onlineShop.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
@@ -10,7 +11,7 @@ import java.time.Instant;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +20,4 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
-
-//    @JsonIgnore
-//    public Account getAccount() {
-//        return account;
-//    }
 }
