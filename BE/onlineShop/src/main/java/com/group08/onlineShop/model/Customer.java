@@ -19,6 +19,7 @@ public class Customer {
     private Account account;
     @Column(length = 12)
     private String phoneNumber;
+    // TODO: replace by Address object
     @Column(length = 50)
     private String defaultAddress;
     @Column(length = 45)
