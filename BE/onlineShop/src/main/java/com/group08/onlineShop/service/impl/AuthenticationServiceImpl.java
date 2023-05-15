@@ -131,22 +131,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 "<h1>Welcome to Our Website!</h1>" +
                 "<p>Thank you for registering with us. We are excited to have you join our community!</p>" +
                 "<p>Please verify your email address by clicking on the following link:</p>" +
-                "<a href='{{verificationLink}}'>Verify Now</a>" +
+                "<a href='" + url + "'>Verify Now</a>" +
                 "<p>Thank you,</p>" +
                 "<p>The Team</p>" +
                 "</body></html>";
-        htmlBody.replace("{{verificationLink}}", url);
 
         log.info("Body: {}", url);
 
         try {
 
-            mailService.sendMailForgotPassword(account.getEmail(), htmlBody, subject);
+            mailService.sendMailForgotPassword(account.getEmail(), subject, htmlBody);
 
         } catch (MessagingException e) {
 
             // TODO: Handle Exception this
-            log.error("Handle error when sending Email");
+            log.error("Handle error when sending Email: {}", e.getMessage());
         }
     }
 

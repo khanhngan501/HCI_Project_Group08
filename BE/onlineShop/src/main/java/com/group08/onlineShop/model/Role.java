@@ -1,6 +1,8 @@
 package com.group08.onlineShop.model;
 
-public enum Role {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role{
     USER,
     ADMIN
 }

@@ -1,5 +1,6 @@
 package com.group08.onlineShop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,4 +19,9 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+//    @JsonIgnore
+//    public Account getAccount() {
+//        return account;
+//    }
 }

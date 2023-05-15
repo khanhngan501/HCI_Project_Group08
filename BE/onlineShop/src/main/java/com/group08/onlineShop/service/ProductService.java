@@ -10,7 +10,7 @@ public interface ProductService {
     Product saveNewProduct(ProductReq productReq);
 
     Product findById(Long productId) throws ResourceNotFoundException;
-
+    List<Product> suggestProduct(ProductReq productReq) throws ResourceNotFoundException;
     List<Product> findAll();
 
     Product updateProduct(Long proId, ProductReq productReq) throws ResourceNotFoundException;
