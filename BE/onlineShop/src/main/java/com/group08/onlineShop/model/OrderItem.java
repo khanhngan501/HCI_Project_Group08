@@ -17,21 +17,14 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    private Instant createAt;
-    private Instant updateAt;
-    private String receiverName;
-    private String receiverPhoneNumber;
-    private String address;
-    private Double deliveryChargers;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id")
+    private Product product;
+    private Integer quantity;
     private Double totalPrice;
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "status_id")
-    private Status status;
+    private String size;
+    private String color;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private Order order;
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
 }

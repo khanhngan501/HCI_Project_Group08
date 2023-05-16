@@ -9,10 +9,8 @@ import com.group08.onlineShop.model.Account;
 import com.group08.onlineShop.model.Role;
 import com.group08.onlineShop.model.Token;
 import com.group08.onlineShop.repository.AccountRepo;
-import com.group08.onlineShop.repository.CartRepo;
 import com.group08.onlineShop.repository.TokenRepo;
 import com.group08.onlineShop.service.AuthenticationService;
-import com.group08.onlineShop.service.CartService;
 import com.group08.onlineShop.service.JwtService;
 import com.group08.onlineShop.service.MailService;
 import jakarta.mail.MessagingException;
@@ -24,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +40,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final TokenRepo tokenRepo;
     private final AccountRepo accountRepo;
-    private final CartService cartService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;

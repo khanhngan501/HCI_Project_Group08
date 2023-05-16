@@ -6,12 +6,10 @@ import com.group08.onlineShop.dto.responseDTO.CartItemResponse;
 import com.group08.onlineShop.exception.BadRequestException;
 import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Account;
-import com.group08.onlineShop.model.Cart;
 import com.group08.onlineShop.model.CartItem;
 import com.group08.onlineShop.model.Product;
 import com.group08.onlineShop.repository.AccountRepo;
 import com.group08.onlineShop.repository.CartItemRepo;
-import com.group08.onlineShop.repository.CartRepo;
 import com.group08.onlineShop.repository.ProductRepo;
 import com.group08.onlineShop.service.CartItemService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepo cartItemRepo;
-    private final CartRepo cartRepo;
     private final ProductRepo productRepo;
-
     private final AccountRepo accountRepo;
     @Override
     public List<CartItemResponse> getAllCartItems() {
@@ -42,7 +38,7 @@ public class CartItemServiceImpl implements CartItemService {
          if (cartItem != null) {
              return new CartItemResponse(cartItem.getId(), cartItem.getProduct().getId(),
                      cartItem.getQuantity(), cartItem.getTotalPrice(),
-                     cartItem.getSize(), cartItem.getColor(), cartItem.getCart());
+                     cartItem.getSize(), cartItem.getColor(), cartItem.getAccount());
          }
         ApiResponse apiResponse = new ApiResponse(Boolean.FALSE,
                 "Can not find cart item by accountID = " + cartItemID, HttpStatus.NOT_FOUND.value());
@@ -53,10 +49,9 @@ public class CartItemServiceImpl implements CartItemService {
     public List<CartItemResponse> getCartItemsByAccount(Long accountID) throws ResourceNotFoundException {
         Account account = accountRepo.findById(accountID).orElseThrow(()
                 -> new ResourceNotFoundException("Account", "accountID", accountID));
-        Cart cart =cartRepo.findCartByAccount(account).orElseThrow(()
-                -> new ResourceNotFoundException("Cart", "accountID", accountID));;
-        if (cart != null) {
-            List<CartItem> cartItems = cartItemRepo.findCartItemsByCart(cart);
+
+        if (account != null) {
+            List<CartItem> cartItems = cartItemRepo.findCartItemsByAccount(account);
             return addCartItemsResponse(cartItems);
         }
         ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Can not find cart item by accountID = " + accountID, HttpStatus.NOT_FOUND.value());
@@ -66,18 +61,18 @@ public class CartItemServiceImpl implements CartItemService {
 
     @Override
     public CartItemResponse addCartItem(CartItemRequest cartItemRequest) throws ResourceNotFoundException {
-        Cart cart =cartRepo.findById(cartItemRequest.getCart()).orElseThrow(()
-                -> new ResourceNotFoundException("CartItems", "cartID", cartItemRequest.getCart()));
+        Account account= accountRepo.findById(cartItemRequest.getAccount()).orElseThrow(()
+                -> new ResourceNotFoundException("Account", "accountID", cartItemRequest.getAccount()));;
         Product product = productRepo.findById(cartItemRequest.getProduct()).orElseThrow(()
                 -> new ResourceNotFoundException("Product", "productID", cartItemRequest.getProduct()));
-        if (cart != null && product != null) {
+        if (account != null && product != null) {
             CartItem cartItem = new CartItem(product,
                     cartItemRequest.getQuantity(), cartItemRequest.getTotalPrice(),
-                    cartItemRequest.getSize(), cartItemRequest.getColor(), cart);
+                    cartItemRequest.getSize(), cartItemRequest.getColor(), account);
             CartItem newCartItem = cartItemRepo.save(cartItem);
             return new CartItemResponse(newCartItem.getId(), newCartItem.getProduct().getId(),
                     newCartItem.getQuantity(), newCartItem.getTotalPrice(),
-                    newCartItem.getSize(), newCartItem.getColor(), newCartItem.getCart());
+                    newCartItem.getSize(), newCartItem.getColor(), newCartItem.getAccount());
         }
         ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Can not create cart item", HttpStatus.BAD_REQUEST.value());
         throw new BadRequestException(apiResponse);
@@ -87,12 +82,12 @@ public class CartItemServiceImpl implements CartItemService {
     public CartItemResponse updateCartItem(Long cartItemID, CartItemRequest cartItemRequest) throws ResourceNotFoundException {
         CartItem cartItem = cartItemRepo.findById(cartItemID).orElseThrow(() ->
                 new ResourceNotFoundException("CartItem", "cartItemID", cartItemID));
-        Cart cart =cartRepo.findById(cartItemRequest.getCart()).orElseThrow(()
-                -> new ResourceNotFoundException("CartItems", "cartID", cartItemRequest.getCart()));
+        Account account =accountRepo.findById(cartItemRequest.getAccount()).orElseThrow(()
+                -> new ResourceNotFoundException("CartItems", "cartID", cartItemRequest.getAccount()));
         Product product = productRepo.findById(cartItemRequest.getProduct()).orElseThrow(()
                 -> new ResourceNotFoundException("Product", "productID", cartItemRequest.getProduct()));
         if(cartItem != null) {
-            cartItem.setCart(cart);
+            cartItem.setAccount(account);
             cartItem.setColor(cartItemRequest.getColor());
             cartItem.setQuantity(cartItemRequest.getQuantity());
             cartItem.setProduct(product);
@@ -102,7 +97,7 @@ public class CartItemServiceImpl implements CartItemService {
             CartItem updatedCartItem = cartItemRepo.save(cartItem);
             return new CartItemResponse(updatedCartItem.getId(), updatedCartItem.getProduct().getId(),
                     updatedCartItem.getQuantity(), updatedCartItem.getTotalPrice(),
-                    updatedCartItem.getSize(), updatedCartItem.getColor(), updatedCartItem.getCart());
+                    updatedCartItem.getSize(), updatedCartItem.getColor(), updatedCartItem.getAccount());
         }
         ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Can not create cart item", HttpStatus.BAD_REQUEST.value());
         throw new BadRequestException(apiResponse);
@@ -125,7 +120,7 @@ public class CartItemServiceImpl implements CartItemService {
         for(CartItem cartItem : cartItems) {
             cartItemResponses.add(new CartItemResponse(cartItem.getId(), cartItem.getProduct().getId(),
                     cartItem.getQuantity(), cartItem.getTotalPrice(), cartItem.getSize(),
-                    cartItem.getColor(), cartItem.getCart()));
+                    cartItem.getColor(), cartItem.getAccount()));
         }
         return cartItemResponses;
     }

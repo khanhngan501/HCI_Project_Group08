@@ -20,4 +20,16 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id")
     private Account account;
+    private Instant createAt;
+    private Instant updateAt;
+    private String receiverName;
+    private String receiverPhoneNumber;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+    private Double deliveryChargers;
+    private Double totalPrice;
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "status_id")
+    private Status status;
 }

@@ -9,18 +9,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class CustomerInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
     @Column(length = 12)
     private String phoneNumber;
-    @Column(length = 50)
-    private String defaultAddress;
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
     @Column(length = 45)
     private String customerName;
     private Boolean isDefault;

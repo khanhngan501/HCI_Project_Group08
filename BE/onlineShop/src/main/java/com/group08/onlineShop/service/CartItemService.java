@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CartItemService {
     List<CartItemResponse> getAllCartItems();
-    List<CartItemResponse> getCartItemsByAccount(Long cartID) throws ResourceNotFoundException;
+    List<CartItemResponse> getCartItemsByAccount(Long accountID) throws ResourceNotFoundException;
     CartItemResponse getCartItemByID(Long cartItemID) throws ResourceNotFoundException;
     CartItemResponse addCartItem(CartItemRequest cartItemRequest) throws ResourceNotFoundException;
     CartItemResponse updateCartItem(Long cartItemID, CartItemRequest cartItemRequest) throws ResourceNotFoundException;

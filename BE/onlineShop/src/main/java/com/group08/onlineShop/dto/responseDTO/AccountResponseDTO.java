@@ -18,7 +18,6 @@ public class AccountResponseDTO {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role_id = role_id;
-//        this.password = password;
         this.active = active;
     }
 
