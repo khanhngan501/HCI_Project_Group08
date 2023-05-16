@@ -1,12 +1,11 @@
 package com.group08.onlineShop.dto.responseDTO;
 
-import com.group08.onlineShop.model.Cart;
-import com.group08.onlineShop.model.Product;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.group08.onlineShop.model.Account;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class CartItemResponse {
     private Long id;
     private Long product;
@@ -14,15 +13,5 @@ public class CartItemResponse {
     private Double totalPrice;
     private String size;
     private String color;
-    private Cart cart;
-
-    public CartItemResponse(Long id, Long product, Integer quantity, Double totalPrice, String size, String color, Cart cart) {
-        this.id = id;
-        this.product = product;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-        this.size = size;
-        this.color = color;
-        this.cart = cart;
-    }
+    private Account account;
 }

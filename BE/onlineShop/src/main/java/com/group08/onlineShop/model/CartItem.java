@@ -24,15 +24,15 @@ public class CartItem {
     private String size;
     private String color;
     @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
-    public CartItem(Product product, Integer quantity, Double totalPrice, String size, String color, Cart cart) {
+    public CartItem(Product product, Integer quantity, Double totalPrice, String size, String color, Account account) {
         this.product = product;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.size = size;
         this.color = color;
-        this.cart = cart;
+        this.account = account;
     }
 }
