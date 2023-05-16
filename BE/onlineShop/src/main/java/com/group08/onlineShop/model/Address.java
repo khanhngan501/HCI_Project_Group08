@@ -5,6 +5,7 @@ import lombok.*;
 
 @Data
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Address {

@@ -10,7 +10,7 @@ import java.util.List;
 public interface AddressService {
     List<AddressResponse> getAllAddress();
     AddressResponse getAddressByID(Long addressID) throws ResourceNotFoundException;
-    AddressResponse createAddress(AddressRequest addressRequest);
-    AddressResponse updateAddress(Long addressID, AddressRequest addressRequest);
-    ApiResponse deleteAddress(Long addressID);
+    AddressResponse createAddress(AddressRequest addressRequest) throws ResourceNotFoundException;
+    AddressResponse updateAddress(Long addressID, AddressRequest addressRequest) throws ResourceNotFoundException;
+    ApiResponse deleteAddress(Long addressID) throws ResourceNotFoundException;
 }
