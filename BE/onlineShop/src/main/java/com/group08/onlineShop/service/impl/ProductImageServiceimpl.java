@@ -1,6 +1,5 @@
 package com.group08.onlineShop.service.impl;
 
-import com.group08.onlineShop.dto.requestDTO.ProductImageReq;
 import com.group08.onlineShop.exception.AppException;
 import com.group08.onlineShop.model.Product;
 import com.group08.onlineShop.model.ProductImage;
@@ -15,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +22,11 @@ public class ProductImageServiceimpl implements ProductImageService {
     private final ProductRepo productRepo;
     private final ProductImageRepo productImageRepo;
     private final CloudinaryUpload cloudinaryUpload;
+
+    @Override
+    public Optional<ProductImage> getProductImg(Long id) {
+        return productImageRepo.findById(id);
+    }
 
     @Override
     public List<String> saveNewImage(Long productId, List<MultipartFile> productImageReqs, String color, Integer isDefault) {
