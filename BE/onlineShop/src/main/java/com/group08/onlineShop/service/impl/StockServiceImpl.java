@@ -41,10 +41,12 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public StockResponse getStockByProductAndColorAndSize(Long productID, String color, String size) {
+    public StockResponse getStockByProductAndColorAndSize(Long productID, String color, String size)
+            throws ResourceNotFoundException {
         Optional<Product> product = productRepo.findById(productID);
         if (product.isPresent()) {
-            Stock stock = stockRepo.findStockByProductAndColorAndSize(product.get(), color, size);
+            Stock stock = stockRepo.findStockByProductAndColorAndSize(product.get(), color, size).orElseThrow(()
+                    -> new ResourceNotFoundException("Stock", "product", product.get()));
             return new StockResponse(stock.getId(), stock.getProduct().getId(), stock.getSize(),
                     stock.getColor(), stock.getQuantity());
         }

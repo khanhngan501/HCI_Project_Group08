@@ -8,5 +8,4 @@ public class ProductImageReq {
     private Long productId;
     private String color;
     private Integer isDefault;
-
 }

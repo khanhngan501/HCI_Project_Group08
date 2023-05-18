@@ -8,9 +8,11 @@ import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Account;
 import com.group08.onlineShop.model.CartItem;
 import com.group08.onlineShop.model.Product;
+import com.group08.onlineShop.model.Stock;
 import com.group08.onlineShop.repository.AccountRepo;
 import com.group08.onlineShop.repository.CartItemRepo;
 import com.group08.onlineShop.repository.ProductRepo;
+import com.group08.onlineShop.repository.StockRepo;
 import com.group08.onlineShop.service.CartItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,8 +27,9 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepo cartItemRepo;
     private final ProductRepo productRepo;
     private final AccountRepo accountRepo;
+    private final StockRepo stockRepo;
     @Override
-    public List<CartItemResponse> getAllCartItems() {
+    public List<CartItemResponse> getAllCartItems() throws ResourceNotFoundException {
         List<CartItem> cartItems = cartItemRepo.findAll();
         return addCartItemsResponse(cartItems);
     }
@@ -35,10 +38,13 @@ public class CartItemServiceImpl implements CartItemService {
     public CartItemResponse getCartItemByID(Long cartItemID) throws ResourceNotFoundException {
          CartItem cartItem = cartItemRepo.findById(cartItemID).orElseThrow(()
                 -> new ResourceNotFoundException("CartItem", "cartItemID", cartItemID));
+         Stock stock = stockRepo.findStockByProductAndColorAndSize(cartItem.getProduct(), cartItem.getColor(),
+                 cartItem.getSize()).orElseThrow(() -> new ResourceNotFoundException("Stock", "properties",
+                 cartItem.getProduct().getId()));
          if (cartItem != null) {
              return new CartItemResponse(cartItem.getId(), cartItem.getProduct().getId(),
                      cartItem.getQuantity(), cartItem.getTotalPrice(),
-                     cartItem.getSize(), cartItem.getColor(), cartItem.getAccount());
+                     cartItem.getSize(), cartItem.getColor(), cartItem.getAccount(), stock, null);
          }
         ApiResponse apiResponse = new ApiResponse(Boolean.FALSE,
                 "Can not find cart item by accountID = " + cartItemID, HttpStatus.NOT_FOUND.value());
@@ -65,6 +71,9 @@ public class CartItemServiceImpl implements CartItemService {
                 -> new ResourceNotFoundException("Account", "accountID", cartItemRequest.getAccount()));;
         Product product = productRepo.findById(cartItemRequest.getProduct()).orElseThrow(()
                 -> new ResourceNotFoundException("Product", "productID", cartItemRequest.getProduct()));
+        Stock stock = stockRepo.findStockByProductAndColorAndSize(product, cartItemRequest.getColor(),
+                cartItemRequest.getSize()).orElseThrow(() -> new ResourceNotFoundException("Stock", "properties",
+                cartItemRequest.getProduct()));
         if (account != null && product != null) {
             CartItem cartItem = new CartItem(product,
                     cartItemRequest.getQuantity(), cartItemRequest.getTotalPrice(),
@@ -72,7 +81,7 @@ public class CartItemServiceImpl implements CartItemService {
             CartItem newCartItem = cartItemRepo.save(cartItem);
             return new CartItemResponse(newCartItem.getId(), newCartItem.getProduct().getId(),
                     newCartItem.getQuantity(), newCartItem.getTotalPrice(),
-                    newCartItem.getSize(), newCartItem.getColor(), newCartItem.getAccount());
+                    newCartItem.getSize(), newCartItem.getColor(), newCartItem.getAccount(), stock, null);
         }
         ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Can not create cart item", HttpStatus.BAD_REQUEST.value());
         throw new BadRequestException(apiResponse);
@@ -86,6 +95,9 @@ public class CartItemServiceImpl implements CartItemService {
                 -> new ResourceNotFoundException("CartItems", "cartID", cartItemRequest.getAccount()));
         Product product = productRepo.findById(cartItemRequest.getProduct()).orElseThrow(()
                 -> new ResourceNotFoundException("Product", "productID", cartItemRequest.getProduct()));
+        Stock stock = stockRepo.findStockByProductAndColorAndSize(cartItem.getProduct(), cartItem.getColor(),
+                cartItem.getSize()).orElseThrow(() -> new ResourceNotFoundException("Stock", "properties",
+                cartItem.getProduct().getId()));
         if(cartItem != null) {
             cartItem.setAccount(account);
             cartItem.setColor(cartItemRequest.getColor());
@@ -97,7 +109,7 @@ public class CartItemServiceImpl implements CartItemService {
             CartItem updatedCartItem = cartItemRepo.save(cartItem);
             return new CartItemResponse(updatedCartItem.getId(), updatedCartItem.getProduct().getId(),
                     updatedCartItem.getQuantity(), updatedCartItem.getTotalPrice(),
-                    updatedCartItem.getSize(), updatedCartItem.getColor(), updatedCartItem.getAccount());
+                    updatedCartItem.getSize(), updatedCartItem.getColor(), updatedCartItem.getAccount(), stock, null);
         }
         ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Can not create cart item", HttpStatus.BAD_REQUEST.value());
         throw new BadRequestException(apiResponse);
@@ -115,12 +127,15 @@ public class CartItemServiceImpl implements CartItemService {
         throw new BadRequestException(apiResponse);
     }
 
-    private List<CartItemResponse> addCartItemsResponse(List<CartItem> cartItems){
+    private List<CartItemResponse> addCartItemsResponse(List<CartItem> cartItems) throws ResourceNotFoundException {
         List<CartItemResponse> cartItemResponses = new ArrayList<>(cartItems.size());
         for(CartItem cartItem : cartItems) {
+            Stock stock = stockRepo.findStockByProductAndColorAndSize(cartItem.getProduct(), cartItem.getColor(),
+                    cartItem.getSize()).orElseThrow(() -> new ResourceNotFoundException("Stock", "properties",
+                    cartItem.getProduct().getId()));
             cartItemResponses.add(new CartItemResponse(cartItem.getId(), cartItem.getProduct().getId(),
                     cartItem.getQuantity(), cartItem.getTotalPrice(), cartItem.getSize(),
-                    cartItem.getColor(), cartItem.getAccount()));
+                    cartItem.getColor(), cartItem.getAccount(), stock, null));
         }
         return cartItemResponses;
     }

@@ -20,7 +20,7 @@ public class CartItemController {
 
     @GetMapping("/get-cart-items")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> getAllCartItems() {
+    public ResponseEntity<?> getAllCartItems() throws ResourceNotFoundException {
         return ResponseEntity.ok(new ApiResponse(true,
                 "Success", HttpStatus.OK.value(),
                 cartItemService.getAllCartItems()));

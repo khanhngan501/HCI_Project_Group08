@@ -13,7 +13,7 @@ public interface StockService {
 
     List<StockResponse>  getStockByProduct(Long productID);
 
-    StockResponse getStockByProductAndColorAndSize(Long productID, String color, String size);
+    StockResponse getStockByProductAndColorAndSize(Long productID, String color, String size) throws ResourceNotFoundException;
 
     StockResponse addProductToStock(StockRequest stockRequest) throws ResourceNotFoundException;
 

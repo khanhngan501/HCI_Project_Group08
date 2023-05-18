@@ -40,7 +40,7 @@ public class StockController {
             @RequestParam(name = "productID") Long productID,
             @RequestParam(name = "color") String color,
             @RequestParam(name = "size") String size
-    ) {
+    ) throws ResourceNotFoundException {
         return ResponseEntity.ok(new ApiResponse(true,
                 "Success", HttpStatus.OK.value(),
                 stockService.getStockByProductAndColorAndSize(productID, color, size)));
