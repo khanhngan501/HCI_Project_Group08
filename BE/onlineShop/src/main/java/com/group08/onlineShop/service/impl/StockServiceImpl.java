@@ -66,7 +66,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public StockResponse updateStockQuantity(Long stockID, String action, StockRequest stockRequest) {
+    public StockResponse updateStockQuantity(Long stockID, StockRequest stockRequest) {
         Optional<Stock> stock = stockRepo.findById(stockID);
         if (stock.isPresent()) {
             Stock updateStock = stock.get();

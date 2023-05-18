@@ -17,7 +17,7 @@ public interface StockService {
 
     StockResponse addProductToStock(StockRequest stockRequest) throws ResourceNotFoundException;
 
-    StockResponse updateStockQuantity(Long stockID, String action, StockRequest stockRequest);
+    StockResponse updateStockQuantity(Long stockID, StockRequest stockRequest);
 
     ApiResponse deleteStockByID(Long stockID);
 }

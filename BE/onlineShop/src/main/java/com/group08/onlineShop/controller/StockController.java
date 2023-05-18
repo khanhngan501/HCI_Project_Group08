@@ -60,12 +60,11 @@ public class StockController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> updateStockQuantity(
             @RequestParam(name = "stockID") Long stockID,
-            @RequestParam(name = "action") String action,
             @RequestBody StockRequest stockRequest
     ) {
         return ResponseEntity.ok(new ApiResponse(true,
                 "Success", HttpStatus.OK.value(),
-                stockService.updateStockQuantity(stockID, action, stockRequest)));
+                stockService.updateStockQuantity(stockID, stockRequest)));
     }
 
     @DeleteMapping("/delete-stock")
