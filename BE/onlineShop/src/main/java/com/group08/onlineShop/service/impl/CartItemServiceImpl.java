@@ -5,15 +5,10 @@ import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.CartItemResponse;
 import com.group08.onlineShop.exception.BadRequestException;
 import com.group08.onlineShop.exception.ResourceNotFoundException;
-import com.group08.onlineShop.model.Account;
-import com.group08.onlineShop.model.CartItem;
-import com.group08.onlineShop.model.Product;
-import com.group08.onlineShop.model.Stock;
-import com.group08.onlineShop.repository.AccountRepo;
-import com.group08.onlineShop.repository.CartItemRepo;
-import com.group08.onlineShop.repository.ProductRepo;
-import com.group08.onlineShop.repository.StockRepo;
+import com.group08.onlineShop.model.*;
+import com.group08.onlineShop.repository.*;
 import com.group08.onlineShop.service.CartItemService;
+import com.group08.onlineShop.service.ProductImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,6 +23,7 @@ public class CartItemServiceImpl implements CartItemService {
     private final ProductRepo productRepo;
     private final AccountRepo accountRepo;
     private final StockRepo stockRepo;
+    private final ProductImageRepo productImageRepo;
     @Override
     public List<CartItemResponse> getAllCartItems() throws ResourceNotFoundException {
         List<CartItem> cartItems = cartItemRepo.findAll();
@@ -41,6 +37,7 @@ public class CartItemServiceImpl implements CartItemService {
          Stock stock = stockRepo.findStockByProductAndColorAndSize(cartItem.getProduct(), cartItem.getColor(),
                  cartItem.getSize()).orElseThrow(() -> new ResourceNotFoundException("Stock", "properties",
                  cartItem.getProduct().getId()));
+        ProductImage productImage = productImageRepo.getProductImageByProduct(cartItem.getProduct().getId());
          if (cartItem != null) {
              return new CartItemResponse(cartItem.getId(), cartItem.getProduct().getId(),
                      cartItem.getQuantity(), cartItem.getTotalPrice(),

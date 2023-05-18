@@ -2,6 +2,7 @@ package com.group08.onlineShop.controller;
 
 
 import com.group08.onlineShop.dto.requestDTO.ProductImageReq;
+import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.ResponseDTO;
 import com.group08.onlineShop.dto.requestDTO.ProductImageReq;
 import com.group08.onlineShop.dto.responseDTO.ResponseDTO;
@@ -21,6 +22,15 @@ import java.util.List;
 @CrossOrigin(origins ="http://localhost:3000")
 public class ProductImageController {
     private final ProductImageService productImageService;
+    @GetMapping(value = "productImage/{id}")
+    private ResponseEntity<?> addImageProduct(@PathVariable("id") Long id){
+        try {
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productImageService.getProductImg(id)));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
+
 
     @PostMapping(value = "/admin/productImageUrl", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     private ResponseEntity<?> addImageProduct(@RequestParam Long productId, @RequestParam List<MultipartFile> images,@RequestParam String color,@RequestParam Integer isDefault){
