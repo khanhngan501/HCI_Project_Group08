@@ -22,4 +22,5 @@ public class Product {
     private TypeProduct type;
     @OneToOne(mappedBy = "product",fetch = FetchType.EAGER)
     private ProductImage productImage;
+    private String description;
 }

@@ -38,6 +38,7 @@ public class ProductServiceIpml implements ProductService {
             product.setProductName(productReq.getProductName());
             product.setType(productReq.getType());
             product.setPrice(productReq.getPrice());
+            product.setDescription(productReq.getDescription());
             productRepo.save(product);
             return product;
         }

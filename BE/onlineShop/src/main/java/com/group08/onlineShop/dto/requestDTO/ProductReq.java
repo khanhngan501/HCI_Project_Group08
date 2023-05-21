@@ -13,4 +13,5 @@ public class ProductReq {
     private Long category;
     private TypeProduct type;
     private Long productImageId;
+    private String description;
 }
