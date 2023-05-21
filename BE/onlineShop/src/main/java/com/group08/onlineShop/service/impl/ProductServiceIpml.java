@@ -6,8 +6,10 @@ import com.group08.onlineShop.exception.AppException;
 import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Category;
 import com.group08.onlineShop.model.Product;
+import com.group08.onlineShop.model.ProductImage;
 import com.group08.onlineShop.model.TypeProduct;
 import com.group08.onlineShop.repository.CategoryRepo;
+import com.group08.onlineShop.repository.ProductImageRepo;
 import com.group08.onlineShop.repository.ProductRepo;
 import com.group08.onlineShop.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +26,23 @@ import java.util.List;
 public class ProductServiceIpml implements ProductService {
     private final CategoryRepo categoryRepo;
     private final ProductRepo productRepo;
+    private final ProductImageRepo productImageRepo;
     private final ModelMapper modelMapper;
 
     @Override
     public Product saveNewProduct(ProductReq productReq) {
         Category category = categoryRepo.findById(productReq.getCategory()).orElse(null);
-        Product product = modelMapper.map(productReq, Product.class);
-        product.setCategory(category);
-        productRepo.save(product);
-        return product;
+        if(category!=null){
+            Product product = new Product();
+            product.setCategory(category);
+            product.setProductName(productReq.getProductName());
+            product.setType(productReq.getType());
+            product.setPrice(productReq.getPrice());
+            productRepo.save(product);
+            return product;
+        }
+        return null;
+
     }
     @Override
     public List<SearchProductResp> getProductByKeyword(String keyword, Long manufacturerId, Long categoryId, TypeProduct type) {

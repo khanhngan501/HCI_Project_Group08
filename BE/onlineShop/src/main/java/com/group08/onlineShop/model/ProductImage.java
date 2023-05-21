@@ -1,5 +1,6 @@
 package com.group08.onlineShop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.type.descriptor.jdbc.TinyIntJdbcType;
@@ -15,8 +16,8 @@ public class ProductImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "product_id")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JsonBackReference
     private Product product;
     private String imageLink;
     private Integer isDefault;

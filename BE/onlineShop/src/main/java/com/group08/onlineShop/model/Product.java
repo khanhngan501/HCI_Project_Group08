@@ -1,5 +1,6 @@
 package com.group08.onlineShop.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,4 +20,6 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
     private TypeProduct type;
+    @OneToOne(mappedBy = "product",fetch = FetchType.EAGER)
+    private ProductImage productImage;
 }
