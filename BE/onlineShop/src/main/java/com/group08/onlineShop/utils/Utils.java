@@ -1,6 +1,8 @@
 package com.group08.onlineShop.utils;
 
+import com.group08.onlineShop.model.Account;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,7 +34,9 @@ public class Utils {
     }
 
     public static Long getIdCurrentUser(){
-        return Long.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        Account u = (Account) authentication.getPrincipal();
+        return u.getId();
     }
 
 }

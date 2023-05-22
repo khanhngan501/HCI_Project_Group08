@@ -12,6 +12,7 @@ import com.group08.onlineShop.repository.AccountRepo;
 import com.group08.onlineShop.repository.AddressRepo;
 import com.group08.onlineShop.repository.CustomerInfoRepo;
 import com.group08.onlineShop.service.CustomerInfoService;
+import com.group08.onlineShop.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -109,6 +110,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         }
         ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Can not delete customer", HttpStatus.BAD_REQUEST.value());
         throw new BadRequestException(apiResponse);
+    }
+
+    @Override
+    public Account getCurrentUser() {
+        return accountRepo.getReferenceById(Utils.getIdCurrentUser());
     }
 
     private List<CustomerInfoResponse> addCustomerInfoResponse(List<CustomerInfo> customerInfos){

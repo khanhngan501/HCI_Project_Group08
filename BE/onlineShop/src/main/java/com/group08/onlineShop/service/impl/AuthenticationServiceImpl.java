@@ -4,6 +4,7 @@ import com.group08.onlineShop.dto.requestDTO.AuthenticationRequest;
 import com.group08.onlineShop.dto.requestDTO.PasswordDto;
 import com.group08.onlineShop.dto.requestDTO.RegisterRequest;
 import com.group08.onlineShop.dto.responseDTO.AuthenticationResponse;
+import com.group08.onlineShop.exception.AppException;
 import com.group08.onlineShop.exception.UserNotFoundException;
 import com.group08.onlineShop.model.Account;
 import com.group08.onlineShop.model.Role;
@@ -43,10 +44,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    public ResponseEntity<?> register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) {
         // add check for email exists in DB
         if(accountRepo.existsByEmail(request.getEmail())){
-            return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+            throw new AppException(400,"Email already exits");
         }
         var user = Account.builder().firstName(request.getFirstName()).
                 lastName(request.getLastName()).email(request.getEmail())
@@ -56,24 +57,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
         accountRepo.save(user);
         var jwtToken = jwtService.generateToken(user);
-        return new ResponseEntity<>(AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build(), HttpStatus.OK);
+        return AuthenticationResponse.builder()
+                .token(jwtToken).build();
     }
 
-    public ResponseEntity<?> authenticate(AuthenticationRequest request)
+    public AuthenticationResponse authenticate(AuthenticationRequest request)
             throws UserNotFoundException, AuthenticationException {
-
-        var user = accountRepo.findAccountByEmail(request.getEmail()).
-                orElseThrow(() -> new UserNotFoundException(request.getEmail()));
-
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
         );
-        var jwtToken = jwtService.generateToken(user);
-        return new ResponseEntity<>(AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build(), HttpStatus.OK);
+        var user = accountRepo.findAccountByEmail(request.getEmail())
+                .orElseThrow();
+        if(!user.getActive())
+        {
+            throw new AppException(400,"User not authenticate");
+        }
+        else {
+            var jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponse.builder()
+                    .token(jwtToken).build();
+        }
     }
 
     @Override

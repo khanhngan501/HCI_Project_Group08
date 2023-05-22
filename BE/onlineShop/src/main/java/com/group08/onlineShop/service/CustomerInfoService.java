@@ -17,4 +17,6 @@ public interface CustomerInfoService {
     CustomerInfoResponse createCustomerInfo(CustomerInfoRequest customerInfoRequest) throws ResourceNotFoundException;
     CustomerInfoResponse updateCustomerInfo(Long customerInfoID, CustomerInfoRequest customerInfoRequest) throws ResourceNotFoundException;
     ApiResponse deleteCustomerInfo(Long customerInfoID) throws ResourceNotFoundException;
+
+    Account getCurrentUser();
 }
