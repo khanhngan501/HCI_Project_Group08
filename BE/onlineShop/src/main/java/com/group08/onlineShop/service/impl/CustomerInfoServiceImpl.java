@@ -1,6 +1,8 @@
 package com.group08.onlineShop.service.impl;
 
+import com.group08.onlineShop.dto.requestDTO.AccountRequestDTO;
 import com.group08.onlineShop.dto.requestDTO.CustomerInfoRequest;
+import com.group08.onlineShop.dto.responseDTO.AccountResponseDTO;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.CustomerInfoResponse;
 import com.group08.onlineShop.exception.BadRequestException;
@@ -115,6 +117,26 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Override
     public Account getCurrentUser() {
         return accountRepo.getReferenceById(Utils.getIdCurrentUser());
+    }
+
+    @Override
+    public Account updateAccount(AccountRequestDTO accountRequestDTO) throws ResourceNotFoundException {
+        if(Utils.getIdCurrentUser() == accountRequestDTO.getId())
+        {
+            Account account = accountRepo.findById(accountRequestDTO.getId()).orElseThrow();
+            if (account != null) {
+                account.setActive(accountRequestDTO.getActive());
+                account.setEmail(accountRequestDTO.getEmail());
+                account.setFirstName(accountRequestDTO.getFirstName());
+                account.setLastName(accountRequestDTO.getLastName());
+                account.setRole(accountRequestDTO.getRole());
+                accountRepo.save(account);
+                return account;
+            }
+        }
+
+        ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Can not update customer info", HttpStatus.BAD_REQUEST.value());
+        throw new BadRequestException(apiResponse);
     }
 
     private List<CustomerInfoResponse> addCustomerInfoResponse(List<CustomerInfo> customerInfos){

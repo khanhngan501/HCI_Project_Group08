@@ -1,6 +1,10 @@
 package com.group08.onlineShop.controller;
 
+import com.group08.onlineShop.dto.requestDTO.AccountRequestDTO;
+import com.group08.onlineShop.dto.requestDTO.CustomerInfoRequest;
 import com.group08.onlineShop.dto.requestDTO.PasswordDto;
+import com.group08.onlineShop.dto.responseDTO.ApiResponse;
+import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.exception.UserNotFoundException;
 import com.group08.onlineShop.model.Account;
 import com.group08.onlineShop.service.AuthenticationService;
@@ -36,7 +40,15 @@ public class AccountController {
         Account result = customerInfoService.getCurrentUser();
         return ResponseEntity.ok(result);
     }
-
+    @PutMapping("/v1/update-account")
+    public ResponseEntity<?> updateAccount (
+    @RequestBody
+    AccountRequestDTO accountRequestDTO
+    ) throws ResourceNotFoundException {
+        return ResponseEntity.ok(new ApiResponse(true,
+                "Success", HttpStatus.OK.value(),
+                customerInfoService.updateAccount(accountRequestDTO)));
+    }
     @PostMapping("/account/update/password")
     public ResponseEntity<?> updatingNewPassword(@RequestBody PasswordDto passwordDto) {
 

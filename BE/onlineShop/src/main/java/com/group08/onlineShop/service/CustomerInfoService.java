@@ -1,6 +1,8 @@
 package com.group08.onlineShop.service;
 
+import com.group08.onlineShop.dto.requestDTO.AccountRequestDTO;
 import com.group08.onlineShop.dto.requestDTO.CustomerInfoRequest;
+import com.group08.onlineShop.dto.responseDTO.AccountResponseDTO;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.CustomerInfoResponse;
 import com.group08.onlineShop.exception.ResourceNotFoundException;
@@ -19,4 +21,5 @@ public interface CustomerInfoService {
     ApiResponse deleteCustomerInfo(Long customerInfoID) throws ResourceNotFoundException;
 
     Account getCurrentUser();
+    Account updateAccount( AccountRequestDTO accountRequestDTO) throws ResourceNotFoundException;
 }
