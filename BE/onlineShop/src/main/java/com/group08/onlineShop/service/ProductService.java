@@ -6,11 +6,12 @@ import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Product;
 import com.group08.onlineShop.model.TypeProduct;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ProductService {
-    Product saveNewProduct(ProductReq productReq);
+    Product saveNewProduct(ProductReq productReq, List<MultipartFile> productImageReqs, String color, Integer isDefault);
 
     Product findById(Long productId) throws ResourceNotFoundException;
     List<Product> suggestProduct(ProductReq productReq) throws ResourceNotFoundException;
@@ -23,7 +24,7 @@ public interface ProductService {
 
     List<Product> findAll();
 
-    Product updateProduct(ProductReq productReq) throws ResourceNotFoundException;
+    Product updateProduct(ProductReq productReq,List<MultipartFile> productImageReqs, String color, Integer isDefault) throws ResourceNotFoundException;
 
     boolean deleteProductById(Long id);
 

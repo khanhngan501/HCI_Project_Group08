@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ProductImageService {
     Optional<ProductImage> getProductImg(Long id);
-    List<String>  saveNewImage(Long productId, List<MultipartFile> productImageReqs, String color, Integer isDefault);
+    List<ProductImage> saveNewImage(Long productId, List<MultipartFile> productImageReqs, String color, Integer isDefault);
 
     void deleteImageProduct(Long id);
 

@@ -11,11 +11,13 @@ import com.group08.onlineShop.model.TypeProduct;
 import com.group08.onlineShop.repository.CategoryRepo;
 import com.group08.onlineShop.repository.ProductImageRepo;
 import com.group08.onlineShop.repository.ProductRepo;
+import com.group08.onlineShop.service.ProductImageService;
 import com.group08.onlineShop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +28,11 @@ import java.util.List;
 public class ProductServiceIpml implements ProductService {
     private final CategoryRepo categoryRepo;
     private final ProductRepo productRepo;
-    private final ProductImageRepo productImageRepo;
+    private final ProductImageService productImageService;
     private final ModelMapper modelMapper;
 
     @Override
-    public Product saveNewProduct(ProductReq productReq) {
+    public Product saveNewProduct(ProductReq productReq, List<MultipartFile> productImageReqs, String color, Integer isDefault) {
         Category category = categoryRepo.findById(productReq.getCategory()).orElse(null);
         if(category!=null){
             Product product = new Product();
@@ -40,7 +42,9 @@ public class ProductServiceIpml implements ProductService {
             product.setPrice(productReq.getPrice());
             product.setDescription(productReq.getDescription());
             productRepo.save(product);
-            return product;
+            List<ProductImage> result = productImageService.saveNewImage(product.getId(),productImageReqs,color,isDefault);
+            product.setProductImage(result);
+            return productRepo.save(product);
         }
         return null;
 
@@ -87,13 +91,21 @@ public class ProductServiceIpml implements ProductService {
     }
 
     @Override
-    public Product updateProduct(ProductReq productReq) throws ResourceNotFoundException {
+    public Product updateProduct(ProductReq productReq,List<MultipartFile> productImageReqs, String color, Integer isDefault) throws ResourceNotFoundException {
         Product productUpdate = findById(productReq.getId());
         Category category = categoryRepo.findById(productReq.getCategory()).orElseThrow(()
         -> new ResourceNotFoundException("Category", "categoryID", productReq.getCategory()));
         productUpdate.setCategory(category);
         productUpdate.setPrice(productReq.getPrice());
         productUpdate.setProductName(productReq.getProductName());
+        productUpdate.setType(productReq.getType());
+        productUpdate.setDescription(productUpdate.getDescription());
+        if(productImageReqs!=null){
+            List<ProductImage> p = productImageService.saveNewImage(productUpdate.getId(),productImageReqs, color, isDefault);
+            productUpdate.setProductImage(p);
+        }
+
+        productRepo.save(productUpdate);
         return productUpdate;
     }
     @Override

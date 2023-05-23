@@ -8,8 +8,12 @@ import com.group08.onlineShop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1")
@@ -18,10 +22,11 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private final ProductService productService;
 
-    @PostMapping("/post-product")
-    public ResponseEntity<?> postProduct(@RequestBody ProductReq productReq) {
+    @PostMapping(value = "/post-product", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> postProduct(@ModelAttribute ProductReq productReq, @RequestParam List<MultipartFile> images, @RequestParam String color, @RequestParam Integer isDefault) {
         try {
-            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.CREATED.value(), productService.saveNewProduct(productReq)));
+            return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.CREATED.value(),
+                    productService.saveNewProduct(productReq,images,color,isDefault)));
         } catch (Exception e) {
             return ResponseEntity.ok(new ApiResponse(false, e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
@@ -63,9 +68,9 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/update-product")
-    public ResponseEntity<?> updateProduct( @RequestBody ProductReq productReq) throws ResourceNotFoundException {
-        Product productResp = productService.updateProduct( productReq);
+    @PutMapping(value = "/update-product", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateProduct(@ModelAttribute ProductReq productReq, @RequestParam(value = "images",required = false) List<MultipartFile> images, @RequestParam String color, @RequestParam Integer isDefault)throws ResourceNotFoundException {
+        Product productResp = productService.updateProduct( productReq,images,color,isDefault);
         return new ResponseEntity<>(productResp, HttpStatus.OK);
     }
 

@@ -23,7 +23,7 @@ import java.util.List;
 public class ProductImageController {
     private final ProductImageService productImageService;
     @GetMapping(value = "productImage/{id}")
-    private ResponseEntity<?> addImageProduct(@PathVariable("id") Long id){
+    private ResponseEntity<?> getImageProduct(@PathVariable("id") Long id){
         try {
             return ResponseEntity.ok(new ApiResponse(true, "Success", HttpStatus.OK.value(), productImageService.getProductImg(id)));
         } catch (Exception e) {

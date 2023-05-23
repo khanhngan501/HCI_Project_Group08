@@ -16,7 +16,7 @@ public class ProductImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JsonBackReference
     private Product product;
     private String imageLink;

@@ -29,7 +29,7 @@ public class ProductImageServiceimpl implements ProductImageService {
     }
 
     @Override
-    public List<String> saveNewImage(Long productId, List<MultipartFile> productImageReqs, String color, Integer isDefault) {
+    public List<ProductImage> saveNewImage(Long productId, List<MultipartFile> productImageReqs, String color, Integer isDefault) {
         List<ProductImage> productImages = new ArrayList<>();
         Product product = productRepo.getReferenceById(productId);
         if(product!=null){
@@ -45,14 +45,17 @@ public class ProductImageServiceimpl implements ProductImageService {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            });
+            } );
+
+        }else{
+            throw new AppException(400,"product is not exists");
         }
         productImageRepo.saveAll(productImages);
         List<String> urls = new ArrayList<>();
         productImages.forEach(v -> {
             urls.add(v.getImageLink());
         });
-        return urls;
+        return productImages;
     }
 
     @Override
