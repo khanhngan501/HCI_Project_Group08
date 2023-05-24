@@ -25,4 +25,5 @@ public class Product {
     @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
     private List<ProductImage> productImage;
     private String description;
+    private String size;
 }
