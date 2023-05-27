@@ -1,11 +1,14 @@
 package com.group08.onlineShop.service.impl;
 
 import com.group08.onlineShop.dto.requestDTO.PaymentRequest;
+import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.PaymentResponse;
 import com.group08.onlineShop.exception.ResourceNotFoundException;
 import com.group08.onlineShop.model.Account;
+import com.group08.onlineShop.model.CartItem;
 import com.group08.onlineShop.model.Payment;
 import com.group08.onlineShop.repository.AccountRepo;
+import com.group08.onlineShop.repository.CartItemRepo;
 import com.group08.onlineShop.repository.PaymentRepo;
 import com.group08.onlineShop.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ import java.util.List;
 public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepo paymentRepo;
     private final AccountRepo accountRepo;
+    private final CartItemRepo cartItemRepo;
     @Override
     public List<PaymentResponse> getAllPayment() {
         List<Payment> payments = paymentRepo.findAll();
@@ -36,9 +40,16 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentResponse createPayment(PaymentRequest paymentRequest) throws ResourceNotFoundException {
+    public PaymentResponse createPayment(PaymentRequest paymentRequest, List<Long> cartItemsID) throws ResourceNotFoundException {
         Account account = accountRepo.findById(paymentRequest.getAccount()).orElseThrow(()
                 -> new ResourceNotFoundException("Account", "accountID", paymentRequest.getAccount()));
+        for (Long cartItemID : cartItemsID) {
+            CartItem cartItem = cartItemRepo.findById(cartItemID).orElseThrow(() ->
+                    new ResourceNotFoundException("CartItem", "cartItemID", cartItemID));
+            if (cartItem != null) {
+                cartItemRepo.deleteById(cartItemID);
+            }
+        }
         var payment = Payment.builder()
                 .account(account)
                 .created_on(Instant.now())

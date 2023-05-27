@@ -9,5 +9,5 @@ import java.util.List;
 public interface PaymentService {
     List<PaymentResponse> getAllPayment();
     List<PaymentResponse> getPaymentByAccount(Long accountID) throws ResourceNotFoundException;
-    PaymentResponse createPayment(PaymentRequest paymentRequest) throws ResourceNotFoundException;
+    PaymentResponse createPayment(PaymentRequest paymentRequest, List<Long> cartItemsID) throws ResourceNotFoundException;
 }

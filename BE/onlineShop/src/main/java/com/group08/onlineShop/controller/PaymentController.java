@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("api/v1")
@@ -37,9 +39,10 @@ public class PaymentController {
     @PostMapping("/post-payment")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> creatPayment(
-            @RequestBody PaymentRequest paymentRequest
+            @RequestBody PaymentRequest paymentRequest,
+            @RequestParam(name="cartItemsID") List<Long> cartItemsID
     ) throws ResourceNotFoundException {
         return ResponseEntity.ok(new ApiResponse(true,
-                "Success", HttpStatus.OK.value(), paymentService.createPayment(paymentRequest)));
+                "Success", HttpStatus.OK.value(), paymentService.createPayment(paymentRequest, cartItemsID)));
     }
 }
