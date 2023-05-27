@@ -17,7 +17,7 @@ public class CustomerInfoRequest {
     private Long account;
     @Column(length = 12)
     private String phoneNumber;
-    private Long address;
+    private Address address;
     @Column(length = 45)
     private String customerName;
     private Boolean isDefault;

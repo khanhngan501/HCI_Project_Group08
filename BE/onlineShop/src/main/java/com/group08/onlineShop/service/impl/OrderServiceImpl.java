@@ -10,12 +10,10 @@ import com.group08.onlineShop.model.Address;
 import com.group08.onlineShop.model.Order;
 import com.group08.onlineShop.model.Status;
 import com.group08.onlineShop.repository.AccountRepo;
-import com.group08.onlineShop.repository.AddressRepo;
 import com.group08.onlineShop.repository.OrderRepo;
 import com.group08.onlineShop.repository.StatusRepo;
 import com.group08.onlineShop.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +27,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepo orderRepo;
     private final AccountRepo accountRepo;
     private final StatusRepo statusRepo;
-    private final AddressRepo addressRepo;
     @Override
     public List<OrderResponse> getAllOrder() {
         List<Order> orders = orderRepo.findAll();
@@ -69,8 +66,6 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse creatOrder(OrderRequest orderRequest) throws ResourceNotFoundException {
         Account account = accountRepo.findById(orderRequest.getAccount()).orElseThrow(()
                 -> new ResourceNotFoundException("Account", "accountID", orderRequest.getAccount()));
-        Address address = addressRepo.findById(orderRequest.getAddress()).orElseThrow(()
-                -> new ResourceNotFoundException("Account", "accountID", orderRequest.getAddress()));
         Status status = statusRepo.findById(orderRequest.getStatus()).orElseThrow(()
                 -> new ResourceNotFoundException("Status", "statusID", orderRequest.getStatus()));
         var order = Order.builder().account(account)
@@ -78,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
                 .updateAt(null)
                 .receiverName(orderRequest.getReceiverName())
                 .receiverPhoneNumber(orderRequest.getReceiverPhoneNumber())
-                .address(address)
+                .address(orderRequest.getAddress())
                 .deliveryChargers(orderRequest.getDeliveryChargers())
                 .totalPrice(orderRequest.getTotalPrice())
                 .status(status).build();
@@ -94,8 +89,6 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse updateOrder(Long orderID, OrderRequest orderRequest) throws ResourceNotFoundException {
         Account account = accountRepo.findById(orderRequest.getAccount()).orElseThrow(()
                 -> new ResourceNotFoundException("Account", "accountID", orderRequest.getAccount()));
-        Address address = addressRepo.findById(orderRequest.getAddress()).orElseThrow(()
-                -> new ResourceNotFoundException("Account", "accountID", orderRequest.getAddress()));
         Status status = statusRepo.findById(orderRequest.getStatus()).orElseThrow(()
                 -> new ResourceNotFoundException("Status", "statusID", orderRequest.getStatus()));
         Order order = orderRepo.findById(orderID).orElseThrow(()
@@ -105,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
             order.setUpdateAt(Instant.now());
             order.setReceiverName(orderRequest.getReceiverName());
             order.setReceiverPhoneNumber(order.getReceiverPhoneNumber());
-            order.setAddress(address);
+            order.setAddress(orderRequest.getAddress());
             order.setDeliveryChargers(orderRequest.getDeliveryChargers());
             order.setTotalPrice(orderRequest.getTotalPrice());
             order.setStatus(status);

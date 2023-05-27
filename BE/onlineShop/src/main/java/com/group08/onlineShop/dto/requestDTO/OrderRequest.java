@@ -19,7 +19,7 @@ public class OrderRequest {
     private Instant updateAt;
     private String receiverName;
     private String receiverPhoneNumber;
-    private Long address;
+    private Address address;
     private Double deliveryChargers;
     private Double totalPrice;
     private Long status;

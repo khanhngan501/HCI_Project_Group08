@@ -32,6 +32,13 @@ public class Account implements UserDetails {
     private String firstName;
     @Column(name = "last_name", length = 20)
     private String lastName;
+    @Column(length = 12)
+    private String phoneNumber;
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+    @Column(length = 45)
+    private String customerName;
     @Enumerated(EnumType.STRING)
     private Role role;
     private String password;

@@ -2,7 +2,6 @@ package com.group08.onlineShop.service.impl;
 
 import com.group08.onlineShop.dto.requestDTO.AccountRequestDTO;
 import com.group08.onlineShop.dto.requestDTO.CustomerInfoRequest;
-import com.group08.onlineShop.dto.responseDTO.AccountResponseDTO;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.dto.responseDTO.CustomerInfoResponse;
 import com.group08.onlineShop.exception.BadRequestException;
@@ -11,7 +10,6 @@ import com.group08.onlineShop.model.Account;
 import com.group08.onlineShop.model.Address;
 import com.group08.onlineShop.model.CustomerInfo;
 import com.group08.onlineShop.repository.AccountRepo;
-import com.group08.onlineShop.repository.AddressRepo;
 import com.group08.onlineShop.repository.CustomerInfoRepo;
 import com.group08.onlineShop.service.CustomerInfoService;
 import com.group08.onlineShop.utils.Utils;
@@ -27,7 +25,6 @@ import java.util.List;
 public class CustomerInfoServiceImpl implements CustomerInfoService {
     private final CustomerInfoRepo customerInfoRepo;
     private final AccountRepo accountRepo;
-    private final AddressRepo addressRepo;
     @Override
     public List<CustomerInfoResponse> getAllCustomerInfo() {
         List<CustomerInfo> customerInfos = customerInfoRepo.findAll();
@@ -66,12 +63,10 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     public CustomerInfoResponse createCustomerInfo(CustomerInfoRequest customerInfoRequest) throws ResourceNotFoundException {
         Account account = accountRepo.findById(customerInfoRequest.getAccount()).orElseThrow(()
                 -> new ResourceNotFoundException("Account", "accountID", customerInfoRequest.getAccount()));
-        Address address = addressRepo.findById(customerInfoRequest.getAddress()).orElseThrow(()
-                -> new ResourceNotFoundException("Address", "addressID", customerInfoRequest.getAddress()));
         var customerInfo = CustomerInfo.builder()
                 .account(account)
                 .phoneNumber(customerInfoRequest.getPhoneNumber())
-                .address(address)
+                .address(customerInfoRequest.getAddress())
                 .customerName(customerInfoRequest.getCustomerName())
                 .isDefault(customerInfoRequest.getIsDefault()).build();
         customerInfoRepo.save(customerInfo);
@@ -84,14 +79,12 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     public CustomerInfoResponse updateCustomerInfo(Long customerInfoID, CustomerInfoRequest customerInfoRequest) throws ResourceNotFoundException {
         Account account = accountRepo.findById(customerInfoRequest.getAccount()).orElseThrow(()
                 -> new ResourceNotFoundException("Account", "accountID", customerInfoRequest.getAccount()));
-        Address address = addressRepo.findById(customerInfoRequest.getAddress()).orElseThrow(()
-                -> new ResourceNotFoundException("Address", "addressID", customerInfoRequest.getAddress()));
         CustomerInfo customerInfo = customerInfoRepo.findById(customerInfoID)
                 .orElseThrow(() -> new ResourceNotFoundException("CustomerInfo", "customerInfoID", customerInfoID));
         if (customerInfo != null) {
             customerInfo.setAccount(account);
             customerInfo.setPhoneNumber(customerInfoRequest.getPhoneNumber());
-            customerInfo.setAddress(address);
+            customerInfo.setAddress(customerInfoRequest.getAddress());
             customerInfo.setCustomerName(customerInfoRequest.getCustomerName());
             CustomerInfo updatedCustomerInfo = customerInfoRepo.save(customerInfo);
             return new CustomerInfoResponse(updatedCustomerInfo.getId(), updatedCustomerInfo.getAccount(),
@@ -130,6 +123,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                 account.setFirstName(accountRequestDTO.getFirstName());
                 account.setLastName(accountRequestDTO.getLastName());
                 account.setRole(accountRequestDTO.getRole());
+                account.setAddress(accountRequestDTO.getAddress());
                 accountRepo.save(account);
                 return account;
             }

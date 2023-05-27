@@ -1,10 +1,8 @@
 package com.group08.onlineShop.controller;
 
-import com.group08.onlineShop.dto.requestDTO.AddressRequest;
 import com.group08.onlineShop.dto.requestDTO.CustomerInfoRequest;
 import com.group08.onlineShop.dto.responseDTO.ApiResponse;
 import com.group08.onlineShop.exception.ResourceNotFoundException;
-import com.group08.onlineShop.service.AddressService;
 import com.group08.onlineShop.service.CustomerInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

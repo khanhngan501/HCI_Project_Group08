@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController @Slf4j
-@RequestMapping("api")
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 @CrossOrigin(origins ="http://localhost:3000")
 public class AccountController {
@@ -35,12 +35,12 @@ public class AccountController {
         // UI must notify user checking email, after forward to HomePage
         return ResponseEntity.ok(HttpStatus.OK);
     }
-    @GetMapping("/v1/currentUser")
+    @GetMapping("/currentUser")
     public ResponseEntity<?> getCurrentUser(){
         Account result = customerInfoService.getCurrentUser();
         return ResponseEntity.ok(result);
     }
-    @PutMapping("/v1/update-account")
+    @PutMapping("/update-account")
     public ResponseEntity<?> updateAccount (
     @RequestBody
     AccountRequestDTO accountRequestDTO
