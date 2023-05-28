@@ -3,7 +3,7 @@ package com.group08.onlineShop.model;
 public enum PayPalEndpoints {
     GET_ACCESS_TOKEN("/v1/oauth2/token"),
     GET_CLIENT_TOKEN("/v1/identity/generate-token"),
-    PAYPAL_ORDER_CHECKOUT("/v2/checkout/paypal-orders");
+    PAYPAL_ORDER_CHECKOUT("/v2/checkout/orders");
 
     private final String path;
 

@@ -5,11 +5,13 @@ import com.group08.onlineShop.dto.PayPalDTO.ClientTokenDTO;
 import com.group08.onlineShop.dto.PayPalDTO.PayPalOrderDTO;
 import com.group08.onlineShop.dto.responseDTO.AccessTokenResponseDTO;
 import com.group08.onlineShop.dto.responseDTO.PayPalOrderResponseDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -21,8 +23,9 @@ import java.util.Base64;
 import static com.group08.onlineShop.model.PayPalEndpoints.*;
 import static java.net.URI.*;
 
-@Component
+@Service
 @Slf4j
+@RequiredArgsConstructor
 public class PayPalHttpClient {
     private final HttpClient httpClient;
     private final PaypalConfig paypalConfig;

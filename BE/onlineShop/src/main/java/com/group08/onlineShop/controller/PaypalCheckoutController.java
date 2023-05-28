@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/checkout")
+@RequestMapping( "api/v1")
 @Slf4j
 @RequiredArgsConstructor
 public class PaypalCheckoutController {
@@ -23,7 +23,7 @@ public class PaypalCheckoutController {
     private final PayPalHttpClient payPalHttpClient;
     private final PayPalOrderRepo payPalOrderRepo;
 
-    @PostMapping
+    @PostMapping("/checkout")
     public ResponseEntity<PayPalOrderResponseDTO> checkout(@RequestBody PayPalOrderDTO orderDTO) throws Exception {
         var appContext = new PayPalAppContextDTO();
         appContext.setReturnUrl("http://localhost:8080/checkout/success");
@@ -40,7 +40,7 @@ public class PaypalCheckoutController {
         return ResponseEntity.ok(orderResponse);
     }
 
-    @GetMapping(value = "/success")
+    @GetMapping("/checkout/success")
     public ResponseEntity<String> paymentSuccess(HttpServletRequest request) {
         var orderId = request.getParameter("token");
         var out = payPalOrderRepo.findPayPalOrderById(orderId);
