@@ -13,7 +13,7 @@ public class PayPalOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private String id;
+    private Long id;
     private String paypalOrderID;
     private String paypal_order_status;
 }

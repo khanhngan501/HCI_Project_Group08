@@ -14,7 +14,8 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
             "((:typeProduct is null ) or (p.type = :typeProduct))" +
             "and (concat('%',lower(p.productName),'%') like concat('%',lower(:keyword),'%'))")
     List<Product> findAllByKeyword(String keyword, Category category, TypeProduct typeProduct);
-
+    @Query("select p from Product p where p.id = :id")
+    Product getProduct(Long id);
     @Query(
             "SELECT p FROM Product p WHERE (concat('%',lower(p.productName),'%') LIKE concat('%',lower(:keyword),'%')) "
     )

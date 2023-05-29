@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "commune")
-public class Commune {
+@Table(name = "country")
+public class Country {
     @Id
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "district_id")
-    private Integer districtId;
+    @Column(name = "country_id")
+    private Integer countryId;
 
     @Column(name = "name")
     private String name;

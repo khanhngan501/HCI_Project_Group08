@@ -8,14 +8,14 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "district")
-public class District {
+@Table(name = "state")
+public class State {
     @Id
     @Column(name = "id")
     private Integer id;
 
     @Column(name = "city_id")
-    private Integer cityId;
+    private Integer stateId;
 
     @Column(name = "namedistrict")
     private String name;
