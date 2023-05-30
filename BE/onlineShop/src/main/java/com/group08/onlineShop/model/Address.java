@@ -16,15 +16,11 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    private City city;
-    @ManyToOne
-    @JoinColumn(name = "state_id")
-    private State state;
-    @ManyToOne
-    @JoinColumn(name = "country_id")
-    private Country country;
+    private String city_id;
+    private String city_name;
+    private String state_id;
+    private String state_name;
+    private String country_id;
+    private String country_name;
     private String detailAddress;
 }
