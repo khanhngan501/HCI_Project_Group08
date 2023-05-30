@@ -13,11 +13,6 @@ public class State {
     @Id
     @Column(name = "id")
     private Integer id;
-
-    @Column(name = "city_id")
-    private Integer stateId;
-
-    @Column(name = "namedistrict")
-    private String name;
-
+    @Column(name = "state_name")
+    private String stateName;
 }

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface StateRepo extends JpaRepository<State, Long> {
-    List<Country> findStateByStateId(Long stateID);
+    List<Country> findStateById(Long stateID);
 }

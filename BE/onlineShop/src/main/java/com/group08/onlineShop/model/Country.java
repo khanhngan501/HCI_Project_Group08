@@ -17,10 +17,6 @@ public class Country {
     @Id
     @Column(name = "id")
     private Integer id;
-
-    @Column(name = "country_id")
-    private Integer countryId;
-
-    @Column(name = "name")
-    private String name;
+    @Column(name = "country_name")
+    private String countryName;
 }
